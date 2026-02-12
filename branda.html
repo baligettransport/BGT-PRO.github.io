@@ -863,12 +863,35 @@
                 console.log('Error loading settings');
             }
 
+            // Sync notification permission with actual browser permission
+            if ('Notification' in window && Notification.permission === 'granted') {
+                appSettings.notification = true;
+            }
+
             // Apply to UI
             document.getElementById('toggleBackgroundLocation').checked = appSettings.backgroundLocation;
             document.getElementById('toggleHighAccuracy').checked = appSettings.highAccuracy;
             document.getElementById('toggleNotif').checked = appSettings.notification;
 
             updateSettingsBanner();
+            updateNotificationStatus();
+        }
+
+        // Update notification status indicator
+        function updateNotificationStatus() {
+            const toggleNotif = document.getElementById('toggleNotif');
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    toggleNotif.checked = true;
+                    appSettings.notification = true;
+                } else if (Notification.permission === 'denied') {
+                    toggleNotif.checked = false;
+                    appSettings.notification = false;
+                    // Disable the toggle if permission is denied
+                    toggleNotif.disabled = true;
+                    toggleNotif.parentElement.title = 'Notifikasi diblokir. Buka pengaturan browser untuk mengizinkan.';
+                }
+            }
         }
 
         // Save Settings to localStorage
@@ -915,13 +938,29 @@
         }
 
         // Toggle: Notification
-        function toggleNotification(enabled) {
+        async function toggleNotification(enabled) {
+            if (enabled && 'Notification' in window) {
+                // Check current permission status first
+                if (Notification.permission === 'denied') {
+                    // Permission was denied, can't request again programmatically
+                    alert('Notifikasi diblokir oleh browser. Buka pengaturan browser untuk mengizinkan notifikasi.');
+                    document.getElementById('toggleNotif').checked = false;
+                    return;
+                }
+                
+                if (Notification.permission !== 'granted') {
+                    // Request permission
+                    const result = await Notification.requestPermission();
+                    if (result !== 'granted') {
+                        // User denied or dismissed
+                        document.getElementById('toggleNotif').checked = false;
+                        return;
+                    }
+                }
+            }
+            
             appSettings.notification = enabled;
             saveSettings();
-
-            if (enabled && 'Notification' in window) {
-                Notification.requestPermission();
-            }
         }
 
         // Request Background Permission
@@ -1436,6 +1475,8 @@
         }
 
         // Session Monitor
+        let lastActiveInterval = null;
+        
         function startSessionMonitor(user) {
             if (!user) return;
 
@@ -1458,6 +1499,25 @@
             }, (error) => {
                 console.error("Session monitor error:", error);
             });
+
+            // Update lastActive timestamp every 60 seconds
+            lastActiveInterval = setInterval(async () => {
+                if (auth.currentUser) {
+                    try {
+                        await db.collection('users').doc(auth.currentUser.uid).update({
+                            lastActive: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        console.log('lastActive updated');
+                    } catch (error) {
+                        console.error('Error updating lastActive:', error);
+                    }
+                }
+            }, 60000); // Every 60 seconds
+
+            // Also update immediately
+            userRef.update({
+                lastActive: firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(err => console.log('Initial lastActive update failed:', err));
         }
 
         // Logout
@@ -1466,10 +1526,17 @@
                 // Stop location tracking
                 stopLocationTracking();
                 
+                // Clear lastActive interval
+                if (lastActiveInterval) {
+                    clearInterval(lastActiveInterval);
+                    lastActiveInterval = null;
+                }
+                
                 const user = auth.currentUser;
                 if (user) {
                     await db.collection('users').doc(user.uid).update({
                         currentSessionId: null,
+                        lastActive: null,
                         status: 'OFFLINE'
                     });
                 }
