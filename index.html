@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- PENTING: Tambahkan 'viewport-fit=cover' agar layar penuh -->
+    <!-- TAMBAHAN: viewport-fit=cover agar CSS safe-area berfungsi -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Portal Anggota - PT. Bali Global Trans</title>
     
@@ -30,11 +30,11 @@
         /* ATURAN SCROLL */
         html, body {
             height: 100%;
-            width: 100%; 
-            overflow-x: hidden;
-            overflow-y: auto;  
+            width: 100%; /* Pastikan lebar penuh */
+            overflow-x: hidden; /* Selalu cegah scroll samping */
+            overflow-y: auto;  /* Default: Bisa scroll atas/bawah (untuk Register) */
             margin: 0;
-            padding: 0; 
+            padding: 0; /* Padding dihapus di sini */
         }
 
         /* Sembunyikan garis scrollbar */
@@ -63,6 +63,10 @@
             min-height: 100vh;
             color: #fff;
             position: relative;
+            
+            /* TAMBAHAN PENTING: Menjaga konten agar tidak tertutup status bar Android */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom); /* Opsional: untuk navigasi bawah */
         }
 
         /* LATAR BELAKANG GAMBAR (JPG) */
@@ -75,6 +79,9 @@
             z-index: -2;
             object-fit: cover; 
             filter: brightness(0.5); 
+            /* Pastikan background tidak tergeser oleh padding body */
+            top: 0; 
+            left: 0;
         }
 
         .video-overlay {
@@ -96,16 +103,16 @@
             box-shadow: none;       
             border: none;           
             
-            /* Perbaikan HP: Tambahkan padding aman untuk Notch/Jam HP */
+            /* Padding dipindahkan ke sini agar Body pas di tengah */
             padding: 1.5rem; 
-            padding-top: calc(1.5rem + env(safe-area-inset-top)); 
-            
             width: 100%; 
             max-width: 480px;
             position: relative;
             
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             z-index: 10; 
+            
+            /* Tambahan untuk memastikan center jika layar sangat besar */
             margin: 0 auto;
         }
 
@@ -336,7 +343,7 @@
 </head>
 <body>
 
-        <!-- VIDEO LATAR BELAKANG -->
+    <!-- VIDEO LATAR BELAKANG -->
     <!-- 'muted' sudah dihapus agar berupaya memutar suara. 
          Namun browser mungkin memblokirnya secara default. -->
     <video id="bg-video" autoplay loop playsinline>
@@ -867,4 +874,3 @@
 
 </body>
 </html>
-
