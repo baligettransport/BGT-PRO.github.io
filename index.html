@@ -34,11 +34,12 @@
 
         /* VIDEO LATAR BELAKANG */
         #bg-video {
+            position: relative;
             position: fixed;
             right: 0;
             bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
+            width: 100%;
+            height: 100%;
             z-index: -2;
             object-fit: cover;
             filter: brightness(0.5);
@@ -280,7 +281,7 @@
     <!-- 'muted' sudah dihapus agar berupaya memutar suara. 
          Namun browser mungkin memblokirnya secara default. -->
     <video id="bg-video" autoplay loop playsinline>
-        <source src="Videobgt.mp4" type="video/mp4">
+        <source src="VideoBgt.mp4" type="video/mp4">
         Browser Anda tidak mendukung tag video.
     </video>
     <div class="video-overlay"></div>
