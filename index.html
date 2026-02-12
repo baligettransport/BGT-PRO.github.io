@@ -19,42 +19,58 @@
             --dark-color: #5a5c69;
         }
 
-        /* 1. PASTIKAN SCROLL BERFUNGSI & GARIS SCROLL DISEMBUNYIKAN */
+        /* RESET CSS */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ATURAN SCROLL */
         html, body {
             height: 100%;
-            overflow-x: hidden; /* Cegah scroll samping */
-            overflow-y: auto;  /* Paksa scroll atas/bawah aktif */
+            width: 100%; /* Pastikan lebar penuh */
+            overflow-x: hidden; /* Selalu cegah scroll samping */
+            overflow-y: auto;  /* Default: Bisa scroll atas/bawah (untuk Register) */
             margin: 0;
+            padding: 0; /* Padding dihapus agar center benar-benar tengah layar */
         }
 
         /* Sembunyikan garis scrollbar */
         html::-webkit-scrollbar, body::-webkit-scrollbar {
             display: none; 
         }
-        /* Firefox & IE */
         html, body {
             -ms-overflow-style: none;  
             scrollbar-width: none;  
         }
 
+        /* Class tambahan untuk mengunci scroll saat Login */
+        body.no-scroll {
+            overflow: hidden !important;
+            position: fixed; 
+            width: 100%;
+            top: 0; 
+            left: 0;
+        }
+
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* Tengah Horizontal */
+            align-items: center;     /* Tengah Vertikal */
             min-height: 100vh;
-            padding: 20px;
             color: #fff;
             position: relative;
         }
 
-        /* 2. LATAR BELAKANG GAMBAR (JPG) */
+        /* LATAR BELAKANG GAMBAR (JPG) */
         #bg-video {
             position: fixed;
             right: 0;
             bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
+            width: 100%;
+            height: 100%;
             z-index: -2;
             object-fit: cover; 
             filter: brightness(0.5); 
@@ -71,7 +87,7 @@
             pointer-events: none;
         }
 
-        /* 3. CONTAINER TRANSPARAN (HILANGKAN KOTAK) */
+        /* CONTAINER TRANSPARAN */
         .container {
             background: transparent; 
             backdrop-filter: none;   
@@ -79,13 +95,17 @@
             box-shadow: none;       
             border: none;           
             
+            /* Padding dipindahkan ke sini agar Body pas di tengah */
             padding: 1.5rem; 
-            width: 100%;
+            width: 100%; 
             max-width: 480px;
             position: relative;
             
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             z-index: 10; 
+            
+            /* Tambahan untuk memastikan center jika layar sangat besar */
+            margin: 0 auto;
         }
 
         .logo-area {
@@ -692,14 +712,32 @@
         setTimeout(() => { messageBox.style.display = 'none'; }, 5000);
     }
 
+    // FUNGSI OPEN TERCANTUM (DIPERBAIKI UNTUK MENGATUR SCROLL)
     function openTab(evt, tabName) {
+        // Tampilkan/sembunyikan form
         document.querySelectorAll('.form-container').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabName).classList.add('active');
         evt.currentTarget.classList.add('active');
         
         document.getElementById('message-box').style.display = 'none';
+
+        // --- LOGIKA SCROLL BARU ---
+        if (tabName === 'login') {
+            // Jika Login: KUNCI scroll (Layar diam)
+            document.body.classList.add('no-scroll');
+        } else {
+            // Jika Register: BUKA kunci scroll (Bisa digeser)
+            document.body.classList.remove('no-scroll');
+        }
     }
+
+    // Jalankan sekali saat load karena defaultnya "Register" (tidak dikunci)
+    document.addEventListener('DOMContentLoaded', () => {
+        setJoinDate();
+        // Pastikan scroll aktif saat awal buka (Register)
+        document.body.classList.remove('no-scroll'); 
+    });
 
     function setLoading(button, isLoading) {
         const spinner = button.querySelector('.spinner');
@@ -803,7 +841,7 @@
             await auth.signInWithEmailAndPassword(email, password);
             showMessage('Login berhasil! Mengalihkan...', 'success');
             setTimeout(() => {
-                window.location.href = 'branda.html';
+                window.location.href = 'dashboard.html';
             }, 1500);
         } catch (error) {
             showMessage(error.message, 'error');
@@ -826,5 +864,3 @@
 
 </body>
 </html>
-
-
