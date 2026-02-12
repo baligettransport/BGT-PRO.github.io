@@ -2,7 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- PENTING: Tambahkan 'viewport-fit=cover' agar layar penuh -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Portal Anggota - PT. Bali Global Trans</title>
     
     <!-- Google Fonts -->
@@ -29,11 +30,11 @@
         /* ATURAN SCROLL */
         html, body {
             height: 100%;
-            width: 100%; /* Pastikan lebar penuh */
-            overflow-x: hidden; /* Selalu cegah scroll samping */
-            overflow-y: auto;  /* Default: Bisa scroll atas/bawah (untuk Register) */
+            width: 100%; 
+            overflow-x: hidden;
+            overflow-y: auto;  
             margin: 0;
-            padding: 0; /* Padding dihapus agar center benar-benar tengah layar */
+            padding: 0; 
         }
 
         /* Sembunyikan garis scrollbar */
@@ -69,8 +70,8 @@
             position: fixed;
             right: 0;
             bottom: 0;
-            width: 100%;
-            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
             z-index: -2;
             object-fit: cover; 
             filter: brightness(0.5); 
@@ -95,16 +96,16 @@
             box-shadow: none;       
             border: none;           
             
-            /* Padding dipindahkan ke sini agar Body pas di tengah */
+            /* Perbaikan HP: Tambahkan padding aman untuk Notch/Jam HP */
             padding: 1.5rem; 
+            padding-top: calc(1.5rem + env(safe-area-inset-top)); 
+            
             width: 100%; 
             max-width: 480px;
             position: relative;
             
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             z-index: 10; 
-            
-            /* Tambahan untuk memastikan center jika layar sangat besar */
             margin: 0 auto;
         }
 
@@ -335,7 +336,7 @@
 </head>
 <body>
 
-    <!-- VIDEO LATAR BELAKANG -->
+        <!-- VIDEO LATAR BELAKANG -->
     <!-- 'muted' sudah dihapus agar berupaya memutar suara. 
          Namun browser mungkin memblokirnya secara default. -->
     <video id="bg-video" autoplay loop playsinline>
@@ -841,7 +842,7 @@
             await auth.signInWithEmailAndPassword(email, password);
             showMessage('Login berhasil! Mengalihkan...', 'success');
             setTimeout(() => {
-                window.location.href = 'dashboard.html';
+                window.location.href = 'branda.html';
             }, 1500);
         } catch (error) {
             showMessage(error.message, 'error');
