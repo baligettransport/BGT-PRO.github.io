@@ -19,30 +19,45 @@
             --dark-color: #5a5c69;
         }
 
+        /* 1. PASTIKAN SCROLL BERFUNGSI & GARIS SCROLL DISEMBUNYIKAN */
+        html, body {
+            height: 100%;
+            overflow-x: hidden; /* Cegah scroll samping */
+            overflow-y: auto;  /* Paksa scroll atas/bawah aktif */
+            margin: 0;
+        }
+
+        /* Sembunyikan garis scrollbar */
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            display: none; 
+        }
+        /* Firefox & IE */
+        html, body {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+
         body {
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
             padding: 20px;
             color: #fff;
             position: relative;
-            overflow-x: hidden;
         }
 
-        /* VIDEO LATAR BELAKANG */
+        /* 2. LATAR BELAKANG GAMBAR (JPG) */
         #bg-video {
-            position: relative;
             position: fixed;
             right: 0;
             bottom: 0;
-            width: 100%;
-            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
             z-index: -2;
-            object-fit: cover;
-            filter: brightness(0.5);
+            object-fit: cover; 
+            filter: brightness(0.5); 
         }
 
         .video-overlay {
@@ -53,6 +68,24 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.3);
             z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 3. CONTAINER TRANSPARAN (HILANGKAN KOTAK) */
+        .container {
+            background: transparent; 
+            backdrop-filter: none;   
+            -webkit-backdrop-filter: none;
+            box-shadow: none;       
+            border: none;           
+            
+            padding: 1.5rem; 
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            z-index: 10; 
         }
 
         .logo-area {
@@ -64,16 +97,17 @@
             font-weight: 700;
             font-size: 1.6rem; 
             margin: 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
         .logo-area p {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             margin: 0.3rem 0 0 0;
             font-weight: 600;
             font-size: 0.9rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
-        .tabs { display: flex; margin-bottom: 1.2rem; border-bottom: 2px solid rgba(255,255,255,0.2); }
+        .tabs { display: flex; margin-bottom: 1.2rem; border-bottom: 2px solid rgba(255,255,255,0.5); }
         .tab-button { 
             background: none; 
             border: none; 
@@ -81,12 +115,13 @@
             cursor: pointer; 
             font-size: 0.95rem; 
             font-weight: 700; 
-            color: rgba(255, 255, 255, 0.6); 
+            color: rgba(255, 255, 255, 0.7); 
             flex-grow: 1; 
             transition: all 0.3s ease-in-out;
             position: relative;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
-        .tab-button:hover { color: #fff; background-color: rgba(255, 255, 255, 0.05); }
+        .tab-button:hover { color: #fff; background-color: rgba(255, 255, 255, 0.1); border-radius: 5px 5px 0 0;}
         .tab-button.active { color: #fff; }
         .tab-button.active::after {
             content: '';
@@ -94,8 +129,9 @@
             bottom: -2px;
             left: 0;
             width: 100%;
-            height: 2px;
+            height: 3px;
             background-color: var(--primary-color);
+            box-shadow: 0 0 5px var(--primary-color);
         }
 
         .form-container { display: none; animation: fadeIn 0.5s ease-in-out; }
@@ -103,7 +139,6 @@
         
         .form-group { margin-bottom: 0.8rem; position: relative; } 
         
-        /* CSS BARU UNTUK SUSUNAN BERBARIS (KIRI KANAN) */
         .row-group {
             display: flex;
             gap: 10px;
@@ -124,18 +159,17 @@
         
         .form-group input, .form-group select {
             width: 100%; 
-            padding: 0.5rem 0.8rem; 
-            border: 1px solid rgba(255, 255, 255, 0.3); 
+            padding: 0.6rem 0.8rem; 
+            border: 1px solid rgba(255, 255, 255, 0.4); 
             border-radius: 0.4rem; 
             box-sizing: border-box; 
             font-size: 0.9rem; 
             transition: all 0.3s;
-            background: rgba(0, 0, 0, 0.4); 
+            background: rgba(0, 0, 0, 0.5); 
             color: #fff;
             font-family: inherit;
         }
 
-        /* Styling Khusus Input Group untuk Plat Mobil */
         .input-group {
             display: flex;
             gap: 5px;
@@ -182,12 +216,13 @@
             cursor: pointer;
             z-index: 10;
             font-size: 0.9rem;
+            text-shadow: none;
         }
         .password-toggle:hover { color: #fff; }
 
         .form-group input:focus, .form-group select:focus {
             border-color: var(--primary-color);
-            background: rgba(0, 0, 0, 0.6); 
+            background: rgba(0, 0, 0, 0.7); 
             box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.4);
             outline: none;
         }
@@ -206,8 +241,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
             margin-top: 0.8rem;
+            text-shadow: none;
         }
         .btn:hover { background-color: #2e59d9; transform: translateY(-2px); }
         .btn:active { transform: translateY(0); }
@@ -232,6 +268,8 @@
             font-weight: 600;
             font-size: 0.85rem;
             color: #fff; 
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255,255,255,0.2);
         }
         .message.success { background-color: rgba(28, 200, 138, 0.8); border: 1px solid #1cc88a; }
         .message.error { background-color: rgba(231, 74, 59, 0.8); border: 1px solid #e74a3b; }
@@ -240,7 +278,7 @@
             display: block; 
             text-align: center; 
             margin-top: 1rem; 
-            color: rgba(255, 255, 255, 0.8); 
+            color: rgba(255, 255, 255, 0.9); 
             text-decoration: none; 
             cursor: pointer; 
             font-weight: 700;
@@ -250,14 +288,13 @@
         }
         .forgot-password-link:hover { color: #fff; text-decoration: underline; }
 
-        /* CSS FOOTER HAK CIPTA */
         .copyright-footer {
             margin-top: 2rem;
             padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
             text-align: center;
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.4;
         }
         .copyright-footer strong {
@@ -266,6 +303,7 @@
             font-size: 0.75rem;
             margin-bottom: 2px;
             letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         .copyright-footer i {
             margin-right: 3px;
@@ -288,8 +326,8 @@
 
 <div class="container">
     <div class="logo-area">
-        <h1>BALI GLOBAL TRANS</h1>
-        <p>Satu Jalur - Solidaritas Tanpa Tatas "BGT"</p>
+        <h1>Portal Anggota</h1>
+        <p>Silakan daftar untuk akses</p>
     </div>
 
     <div class="tabs">
@@ -319,8 +357,8 @@
 
         <!-- BAGIAN HAK CIPTA -->
         <div class="copyright-footer">
-            <strong>&copy; 2023 PT. Bali Global Trans.</strong>
-            <p><i class="fas fa-shield-alt"></i> Aplikasi ini sudah hakcipta dan dilindungi undang undang</p>
+            <strong>&copy; 2024 PT. Bali Global Trans.</strong>
+            <p><i class="fas fa-shield-alt"></i> Aplikasi ini dilindungi oleh pemerintah pusat</p>
         </div>
     </div>
 
@@ -379,7 +417,7 @@
                 <div class="input-group">
                     <select id="plat-kode" class="text-upper">
                         <option value="" disabled selected>Kode</option>
-                        <!-- LIST PLAT INDONESIA -->
+                        <!-- LIST PLAT INDONESIA LENGKAP -->
                         <option value="A">A (Banten)</option>
                         <option value="B">B (DKI Jakarta)</option>
                         <option value="D">D (Bandung)</option>
@@ -765,7 +803,7 @@
             await auth.signInWithEmailAndPassword(email, password);
             showMessage('Login berhasil! Mengalihkan...', 'success');
             setTimeout(() => {
-                window.location.href = 'branda.html';
+                window.location.href = 'dashboard.html';
             }, 1500);
         } catch (error) {
             showMessage(error.message, 'error');
@@ -788,6 +826,3 @@
 
 </body>
 </html>
-
-
-
