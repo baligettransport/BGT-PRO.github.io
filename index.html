@@ -24,12 +24,7 @@
 
         /* ATURAN SCROLL */
         html, body {
-            height: 100%;
-            width: 100%;
-            overflow-x: hidden;
-            overflow-y: auto;
-            margin: 0;
-            padding: 0;
+            height: 100%; width: 100%; overflow-x: hidden; overflow-y: auto; margin: 0; padding: 0;
         }
 
         /* Sembunyikan garis scrollbar */
@@ -51,7 +46,7 @@
             position: relative;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
-            background-color: #000; /* Fallback color */
+            background-color: #000;
         }
 
         /* LATAR BELAKANG VIDEO */
@@ -204,7 +199,6 @@
 
     <!-- VIDEO LATAR BELAKANG -->
     <video id="bg-video" autoplay loop playsinline muted>
-        <!-- Di set muted agar browser mengizinkan autoplay tanpa interaksi -->
         <source src="VideoBgt.mp4" type="video/mp4">
         Browser Anda tidak mendukung tag video.
     </video>
@@ -320,7 +314,7 @@
                         <option value="W">W (Sidoarjo)</option>
                         <option value="Z">Z (Garut)</option>
                         <option value="DK">DK (Bali)</option>
-                        <!-- (Opsional: Tambahkan kode plat lainnya sesuai kebutuhan, saya potong agar kode tidak terlalu panjang) -->
+                        <!-- Tambahkan plat lain jika perlu -->
                     </select>
                     <input type="text" id="plat-nomor" class="text-upper" placeholder="1234 XX" required>
                 </div>
@@ -360,63 +354,85 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Variabel untuk menyimpan listener agar bisa dimatikan nanti
-    let userSessionUnsubscribe = null;
+    // Variable untuk listener snapshot
+    let sessionListener = null;
+    // Flag untuk mencegah loop alert
+    let isForcingLogout = false;
 
-    // --- FUNGSI UTAMA: GENERATE SESSION ID ---
+    // --- 1. GENERATE SESSION ID ---
     function generateSessionId() {
-        // Membuat ID unik berdasarkan waktu dan string acak
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        // Membuat ID yang sangat unik (Timestamp + Random String)
+        return Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 9);
     }
 
-    // --- FUNGSI MONITORING SESI (AUTO LOGOUT) ---
+    // --- 2. FUNGSI HARD LOGOUT (Mematikan sesi secara total) ---
+    function forceLogout(message) {
+        if (isForcingLogout) return; // Cegah loop
+        isForcingLogout = true;
+
+        // 1. Matikan listener
+        if (sessionListener) {
+            sessionListener();
+            sessionListener = null;
+        }
+
+        // 2. Hapus jejak lokal
+        localStorage.removeItem('userSessionId');
+        localStorage.removeItem('userData'); // Opsional, membersihkan cache
+
+        // 3. Sign Out dari Firebase Auth (Ini mematikan akses token)
+        auth.signOut().then(() => {
+            alert(message || "Anda telah keluar karena akun ini login di perangkat lain.");
+            isForcingLogout = false;
+            window.location.reload(); // Refresh halaman agar bersih
+        }).catch(err => {
+            console.error("Logout error:", err);
+            window.location.reload(); // Paksa refresh meski error
+        });
+    }
+
+    // --- 3. MONITOR SESI (REAL-TIME KICKER) ---
     function startSessionMonitor(user) {
         if (!user) return;
 
         const userRef = db.collection('users').doc(user.uid);
-        const localSessionId = localStorage.getItem('userSessionId');
 
-        // Memantau perubahan data user secara real-time
-        userSessionUnsubscribe = userRef.onSnapshot((doc) => {
-            if (doc.exists) {
-                const data = doc.data();
-                const serverSessionId = data.currentSessionId;
+        // Listener ini akan berjalan terus menerus
+        sessionListener = userRef.onSnapshot((doc) => {
+            if (!doc.exists) return;
 
-                // Jika ID di server tidak sama dengan ID di browser ini
-                if (serverSessionId && localSessionId && serverSessionId !== localSessionId) {
-                    console.log("Terdeteksi login di perangkat lain. Logout otomatis...");
-                    
-                    // Matikan listener agar tidak loop
-                    if (userSessionUnsubscribe) userSessionUnsubscribe();
-                    
-                    // Logout paksa
-                    auth.signOut().then(() => {
-                        localStorage.removeItem('userSessionId'); // Hapus jejak sesi
-                        alert("Akun ini sedang login di perangkat lain. Anda telah keluar otomatis.");
-                        window.location.reload(); // Refresh halaman
-                    });
-                }
+            const data = doc.data();
+            const serverSessionId = data.activeSessionId || ''; // ID di Database
+            const localSessionId = localStorage.getItem('userSessionId') || ''; // ID di HP ini
+
+            // LOGIKA PENTING:
+            // Jika ID di Server tidak sama dengan ID di Lokal, berarti ada perangkat lain yang login.
+            // LAKUKAN HARD LOGOUT SEKARANG JUGA.
+            if (serverSessionId && localSessionId && serverSessionId !== localSessionId) {
+                console.warn("PERINGATAN: Sesi tidak valid! Memaksa logout...");
+                forceLogout("AKUN DITANGKAP! Akun ini sedang aktif di perangkat lain. Anda telah keluar otomatis.");
             }
         }, (error) => {
-            console.error("Error monitoring session:", error);
+            console.error("Error monitoring:", error);
         });
     }
 
-    // Listener Global Auth State
+    // --- 4. GLOBAL AUTH STATE CHANGE ---
+    // Ini berjalan saat halaman pertama kali dibuka
     auth.onAuthStateChanged((user) => {
         if (user) {
-            // User sedang login, mulai pantau sesi
+            // Jika user login, mulai monitoring
             startSessionMonitor(user);
         } else {
-            // User logout, pastikan listener dimatikan
-            if (userSessionUnsubscribe) {
-                userSessionUnsubscribe();
-                userSessionUnsubscribe = null;
+            // Jika user logout, pastikan listener mati
+            if (sessionListener) {
+                sessionListener();
+                sessionListener = null;
             }
         }
     });
 
-    // --- LOGIKA FORM UI ---
+    // --- KODE UI & FORM (Sama seperti sebelumnya, dengan tambahan logika keamanan) ---
     const loginBtn = document.getElementById('loginBtn');
     const registerBtn = document.getElementById('registerBtn');
 
@@ -512,10 +528,11 @@
 
         const dateStr = document.getElementById('register-joined').value;
         
-        // Buat Session ID Baru untuk perangkat ini
+        // 1. Buat ID Sesi Baru untuk perangkat ini
         const newSessionId = generateSessionId();
 
         try {
+            // 2. Buat User Auth
             const userCredential = await auth.createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
             
@@ -526,7 +543,7 @@
                 profilePicBase64 = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(nama) + '&background=random';
             }
 
-            // Simpan data user + Session ID
+            // 3. Simpan Data + Sesi ID ke Database
             await db.collection('users').doc(user.uid).set({
                 nama: nama.toUpperCase(),
                 titel: titel,
@@ -537,18 +554,17 @@
                 bergabung: dateStr,
                 profilePicUrl: profilePicBase64,
                 role: 'anggota',
-                currentSessionId: newSessionId, // SIMPAN SESI ID DI DATABASE
+                activeSessionId: newSessionId, // PENTING: Simpan ID Sesi
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            // Simpan Session ID di LocalStorage Browser ini
+            // 4. Simpan ID Sesi di LocalStorage Browser Ini
             localStorage.setItem('userSessionId', newSessionId);
 
             showMessage('Registrasi berhasil! Anda otomatis login.', 'success');
             document.getElementById('registerForm').reset();
             setJoinDate();
             
-            // Redirect setelah sukses
             setTimeout(() => {
                 window.location.href = 'branda.html';
             }, 1500);
@@ -568,19 +584,21 @@
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
         
-        // Buat Session ID Baru
+        // 1. Buat ID Sesi Baru (Ini akan menimpa sesi perangkat lain)
         const newSessionId = generateSessionId();
 
         try {
+            // 2. Login Auth
             const userCredential = await auth.signInWithEmailAndPassword(email, password);
             const user = userCredential.user;
 
-            // UPDATE Session ID di Database (Ini akan mematikan sesi di perangkat lain)
+            // 3. UPDATE DATABASE: Timpa ID sesi lama dengan yang baru
+            // Ini yang membuat perangkat lain terdeteksi " kadaluarsa"
             await db.collection('users').doc(user.uid).update({
-                currentSessionId: newSessionId
+                activeSessionId: newSessionId
             });
 
-            // Update Session ID di LocalStorage Browser ini
+            // 4. Simpan ID Sesi di LocalStorage Browser Ini
             localStorage.setItem('userSessionId', newSessionId);
 
             showMessage('Login berhasil! Mengalihkan...', 'success');
