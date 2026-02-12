@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Anggota - PT. Bali Global Trans</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Ikon Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --success-color: #1cc88a;
+            --danger-color: #e74a3b;
+            --light-color: #f8f9fc;
+            --dark-color: #5a5c69;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* VIDEO LATAR BELAKANG */
+        #bg-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -2;
+            object-fit: cover;
+            filter: brightness(0.5);
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05); 
+            padding: 1.5rem; 
+            border-radius: 1rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .logo-area h1 {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.6rem; 
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .logo-area p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0.3rem 0 0 0;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .tabs { display: flex; margin-bottom: 1.2rem; border-bottom: 2px solid rgba(255,255,255,0.2); }
+        .tab-button { 
+            background: none; 
+            border: none; 
+            padding: 0.8rem; 
+            cursor: pointer; 
+            font-size: 0.95rem; 
+            font-weight: 700; 
+            color: rgba(255, 255, 255, 0.6); 
+            flex-grow: 1; 
+            transition: all 0.3s ease-in-out;
+            position: relative;
+        }
+        .tab-button:hover { color: #fff; background-color: rgba(255, 255, 255, 0.05); }
+        .tab-button.active { color: #fff; }
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .form-container { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .form-container.active { display: block; }
+        
+        .form-group { margin-bottom: 0.8rem; position: relative; } 
+        
+        /* CSS BARU UNTUK SUSUNAN BERBARIS (KIRI KANAN) */
+        .row-group {
+            display: flex;
+            gap: 10px;
+        }
+        .row-group .form-group {
+            flex: 1;
+            margin-bottom: 0.8rem; 
+        }
+
+        .form-group label { 
+            display: block; 
+            margin-bottom: 0.2rem; 
+            color: #fff; 
+            font-weight: 700;
+            font-size: 0.8rem; 
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%; 
+            padding: 0.5rem 0.8rem; 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            border-radius: 0.4rem; 
+            box-sizing: border-box; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.4); 
+            color: #fff;
+            font-family: inherit;
+        }
+
+        /* Styling Khusus Input Group untuk Plat Mobil */
+        .input-group {
+            display: flex;
+            gap: 5px;
+        }
+        .input-group select {
+            flex: 0 0 32%; 
+            padding-right: 1.2rem; 
+        }
+        .input-group input {
+            flex: 1; 
+        }
+
+        .form-group input[type="file"] {
+            padding: 0.3rem;
+            font-size: 0.8rem;
+            background: rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+        }
+        
+        .form-group select {
+            appearance: none; 
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right .5rem top 50%; 
+            background-size: .6rem auto;
+        }
+        .form-group select option { background: #333; color: #fff; }
+
+        .form-group input[readonly], .form-group input:disabled, .form-group select:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .text-upper { text-transform: uppercase; }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 32px; 
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            z-index: 10;
+            font-size: 0.9rem;
+        }
+        .password-toggle:hover { color: #fff; }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+            background: rgba(0, 0, 0, 0.6); 
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.4);
+            outline: none;
+        }
+        
+        .btn { 
+            width: 100%; 
+            padding: 0.6rem 1rem; 
+            background-color: var(--primary-color); 
+            color: white; 
+            border: none; 
+            border-radius: 0.4rem; 
+            font-size: 0.95rem; 
+            font-weight: 700;
+            cursor: pointer; 
+            transition: transform 0.2s, background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-top: 0.8rem;
+        }
+        .btn:hover { background-color: #2e59d9; transform: translateY(-2px); }
+        .btn:active { transform: translateY(0); }
+        .btn:disabled { background-color: #a0aec0; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn .spinner { 
+            display: none; 
+            width: 1rem; 
+            height: 1rem; 
+            border: 3px solid #ffffff; 
+            border-top-color: transparent; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            margin-left: 0.5rem;
+        }
+
+        .message { 
+            text-align: center; 
+            padding: 0.8rem; 
+            margin-bottom: 1rem; 
+            border-radius: 0.5rem; 
+            display: none; 
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #fff; 
+        }
+        .message.success { background-color: rgba(28, 200, 138, 0.8); border: 1px solid #1cc88a; }
+        .message.error { background-color: rgba(231, 74, 59, 0.8); border: 1px solid #e74a3b; }
+
+        .forgot-password-link { 
+            display: block; 
+            text-align: center; 
+            margin-top: 1rem; 
+            color: rgba(255, 255, 255, 0.8); 
+            text-decoration: none; 
+            cursor: pointer; 
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+        .forgot-password-link:hover { color: #fff; text-decoration: underline; }
+
+        /* CSS FOOTER HAK CIPTA */
+        .copyright-footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            text-align: center;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.4;
+        }
+        .copyright-footer strong {
+            display: block;
+            color: #fff;
+            font-size: 0.75rem;
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+        .copyright-footer i {
+            margin-right: 3px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <!-- VIDEO LATAR BELAKANG -->
+    <!-- 'muted' sudah dihapus agar berupaya memutar suara. 
+         Namun browser mungkin memblokirnya secara default. -->
+    <video id="bg-video" autoplay loop playsinline>
+        <source src="Videobgt.mp4" type="video/mp4">
+        Browser Anda tidak mendukung tag video.
+    </video>
+    <div class="video-overlay"></div>
+
+<div class="container">
+    <div class="logo-area">
+        <h1>Portal Anggota</h1>
+        <p>Silakan daftar untuk akses</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-button" onclick="openTab(event, 'login')">Masuk</button>
+        <button class="tab-button active" onclick="openTab(event, 'register')">Daftar</button>
+    </div>
+
+    <div id="message-box" class="message"></div>
+
+    <!-- FORM LOGIN -->
+    <div id="login" class="form-container">
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="login-email"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="login-email" placeholder="nama@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="login-password" placeholder="Masukkan password" required>
+            </div>
+            <button type="submit" class="btn" id="loginBtn">
+                <span>Masuk</span>
+                <div class="spinner"></div>
+            </button>
+        </form>
+        <a class="forgot-password-link" onclick="resetPassword()">Lupa Password?</a>
+
+        <!-- BAGIAN HAK CIPTA -->
+        <div class="copyright-footer">
+            <strong>&copy; 2024 PT. Bali Global Trans.</strong>
+            <p><i class="fas fa-shield-alt"></i> Aplikasi ini dilindungi oleh pemerintah pusat</p>
+        </div>
+    </div>
+
+    <!-- FORM REGISTER -->
+    <div id="register" class="form-container active">
+        <form id="registerForm">
+            <!-- 1. Foto -->
+            <div class="form-group">
+                <label for="register-pic"><i class="fas fa-camera"></i> Foto Profil</label>
+                <input type="file" id="register-pic" accept="image/*" capture="user">
+            </div>
+
+            <!-- 2. Nama -->
+            <div class="form-group">
+                <label for="register-nama"><i class="fas fa-user"></i> Nama Lengkap</label>
+                <input type="text" id="register-nama" class="text-upper" placeholder="NAMA LENGKAP" required>
+            </div>
+
+            <!-- 3. & 4. TITEL & ONLINE (BERBARIS) -->
+            <div class="row-group">
+                <!-- 3. Titel -->
+                <div class="form-group">
+                    <label for="register-titel"><i class="fas fa-id-badge"></i> Titel</label>
+                    <input type="text" id="register-titel" class="text-upper" value="ANGGOTA" readonly required>
+                </div>
+
+                <!-- 4. Online (Status) -->
+                <div class="form-group">
+                    <label for="register-status"><i class="fas fa-check-circle"></i> Online</label>
+                    <input type="text" id="register-status" class="text-upper" value="ONLINE" readonly>
+                </div>
+            </div>
+
+            <!-- 5. Telepon -->
+            <div class="form-group">
+                <label for="register-telepon"><i class="fas fa-phone"></i> Telepon</label>
+                <input type="tel" id="register-telepon" placeholder="08123456789" required>
+            </div>
+
+            <!-- 6. Email -->
+            <div class="form-group">
+                <label for="register-email"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="register-email" placeholder="nama@email.com" required>
+            </div>
+
+            <!-- 7. Password -->
+            <div class="form-group">
+                <label for="register-password"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="register-password" placeholder="Buat password" required>
+                <i class="fas fa-eye password-toggle" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+            </div>
+
+            <!-- 8. Plat Mobil -->
+            <div class="form-group">
+                <label><i class="fas fa-car"></i> Plat Mobil</label>
+                <div class="input-group">
+                    <select id="plat-kode" class="text-upper">
+                        <option value="" disabled selected>Kode</option>
+                        <!-- LIST PLAT INDONESIA -->
+                        <option value="A">A (Banten)</option>
+                        <option value="B">B (DKI Jakarta)</option>
+                        <option value="D">D (Bandung)</option>
+                        <option value="E">E (Cirebon)</option>
+                        <option value="F">F (Bekasi)</option>
+                        <option value="G">G (Pekalongan)</option>
+                        <option value="H">H (Semarang)</option>
+                        <option value="K">K (Pati)</option>
+                        <option value="L">L (Surabaya)</option>
+                        <option value="M">M (Madura)</option>
+                        <option value="N">N (Malang)</option>
+                        <option value="P">P (Probolinggo)</option>
+                        <option value="R">R (Banyuwangi)</option>
+                        <option value="S">S (Bojonegoro)</option>
+                        <option value="T">T (Kediri)</option>
+                        <option value="W">W (Sidoarjo)</option>
+                        <option value="Z">Z (Garut)</option>
+                        <option value="AA">AA (Kediri)</option>
+                        <option value="AB">AB (Magelang)</option>
+                        <option value="AD">AD (Surakarta)</option>
+                        <option value="AE">AE (Madiun)</option>
+                        <option value="AG">AG (Kebumen)</option>
+                        <option value="BA">BA (Sumatera Barat)</option>
+                        <option value="BB">BB (Sumatera Utara)</option>
+                        <option value="BD">BD (Riau)</option>
+                        <option value="BE">BE (Lampung Tengah)</option>
+                        <option value="BG">BG (Jambi)</option>
+                        <option value="BH">BH (Bengkulu)</option>
+                        <option value="BK">BK (Sumatera Selatan)</option>
+                        <option value="BL">BL (Aceh)</option>
+                        <option value="BM">BM (Riau Kepulauan)</option>
+                        <option value="BN">BN (Kepulauan Bangka Belitung)</option>
+                        <option value="BP">BP (Kepulauan Riau)</option>
+                        <option value="CC">CC (Lampung)</option>
+                        <option value="CD">CD (Lampung Barat)</option>
+                        <option value="DA">DA (Kalimantan Selatan)</option>
+                        <option value="DB">DB (Kalimantan Timur)</option>
+                        <option value="DC">DC (Kalimantan Tengah)</option>
+                        <option value="DD">DD (Sulawesi Tengah)</option>
+                        <option value="DE">DE (Maluku)</option>
+                        <option value="DG">DG (Banyumas)</option>
+                        <option value="DH">DH (Pekalongan Kota)</option>
+                        <option value="DK">DK (Bali)</option>
+                        <option value="DL">DL (Gresik)</option>
+                        <option value="DM">DM (Gorontalo)</option>
+                        <option value="DN">DN (Sulawesi Selatan)</option>
+                        <option value="DP">DP (Wonogiri)</option>
+                        <option value="DR">DR (Nusa Tenggara Barat)</option>
+                        <option value="DS">DS (Nusa Tenggara Timur)</option>
+                        <option value="DT">DT (Sulawesi Utara)</option>
+                        <option value="DW">DW (Sulawesi Barat)</option>
+                        <option value="EA">EA (Sumba)</option>
+                        <option value="EB">EB (Flores)</option>
+                        <option value="ED">ED (Sumba Timur)</option>
+                        <option value="GA">GA (Sumatera Utara)</option>
+                        <option value="GB">GB (Nias)</option>
+                        <option value="GK">GK (Labuhan Batu)</option>
+                        <option value="GL">GL (Langkat)</option>
+                        <option value="GN">GN (Gunungsitoli)</option>
+                        <option value="GP">GP (Padang Lawas)</option>
+                        <option value="GR">GR (Rokan Hulu)</option>
+                        <option value="GU">GU (Deli Serdang)</option>
+                        <option value="HA">HA (Padang)</option>
+                        <option value="HB">HB (Bukittinggi)</option>
+                        <option value="HK">HK (Kalimantan Utara)</option>
+                        <option value="KA">KA (Magetan)</option>
+                        <option value="KB">KB (Batu)</option>
+                        <option value="KC">KC (Ciamis)</option>
+                        <option value="KD">KD (Blitar)</option>
+                        <option value="KG">KG (Cilacap)</option>
+                        <option value="KH">KH (Klaten)</option>
+                        <option value="KK">KK (Batang)</option>
+                        <option value="KL">KL (Banyumas)</option>
+                        <option value="KM">KM (Blora)</option>
+                        <option value="KN">KN (Kediri)</option>
+                        <option value="KP">KP (Ponorogo)</option>
+                        <option value="KR">KR (Karanganyar)</option>
+                        <option value="KT">KT (Tulungagung)</option>
+                        <option value="KW">KW (Wonogiri)</option>
+                        <option value="KY">KY (Kudus)</option>
+                        <option value="LA">LA (Lamongan)</option>
+                        <option value="LB">LB (Bondowoso)</option>
+                        <option value="LG">LG (Lumajang)</option>
+                        <option value="LJ">LJ (Lamongan)</option>
+                        <option value="LN">LN (Mojokerto)</option>
+                        <option value="LP">LP (Pasuruan)</option>
+                        <option value="LU">LU (Jember)</option>
+                        <option value="MA">MA (Sumedang)</option>
+                        <option value="MB">MB (Situbondo)</option>
+                        <option value="MC">MC (Cianjur)</option>
+                        <option value="MD">MD (Garut)</option>
+                        <option value="ME">ME (Tasikmalaya)</option>
+                        <option value="MG">MG (Nganjuk)</option>
+                        <option value="MH">MH (Purwakarta)</option>
+                        <option value="MK">MK (Kediri)</option>
+                        <option value="MM">MM (Madiun)</option>
+                        <option value="MN">MN (Karawang)</option>
+                        <option value="MO">MO (Mojokerto)</option>
+                        <option value="MP">MP (Magelang)</option>
+                        <option value="MT">MT (Metro)</option>
+                        <option value="MW">MW (Banyuwangi)</option>
+                        <option value="NA">NA (Papua)</option>
+                        <option value="NB">NB (Papua Barat)</option>
+                        <option value="NC">NC (Papua Selatan)</option>
+                        <option value="ND">ND (Papua Tengah)</option>
+                        <option value="NE">NE (Papua Pegunungan)</option>
+                        <option value="NF">NF (Papua Barat Daya)</option>
+                        <option value="NH">NH (Ngawi)</option>
+                        <option value="NK">NK (Kupang)</option>
+                        <option value="NL">NL (Tolitoli)</option>
+                        <option value="NM">NM (Bima)</option>
+                        <option value="NN">NN (Sumatera Utara)</option>
+                        <option value="NP">NP (Pangandaran)</option>
+                        <option value="NR">NR (Nagan Raya)</option>
+                        <option value="NS">NS (Aceh Tengah)</option>
+                        <option value="NT">NT (Aceh Tenggara)</option>
+                        <option value="NU">NU (Banyuwangi)</option>
+                        <option value="NV">NV (Banyuwangi)</option>
+                        <option value="PA">PA (Payakumbuh)</option>
+                        <option value="PB">PB (Pangkalpinang)</option>
+                        <option value="PC">PC (Cimahi)</option>
+                        <option value="PD">PD (Bandung)</option>
+                        <option value="PE">PE (Pematang Siantar)</option>
+                        <option value="PF">PF (Padang Panjang)</option>
+                        <option value="PG">PG (Pariaman)</option>
+                        <option value="PH">PH (Bukittinggi)</option>
+                        <option value="PK">PK (Palembang)</option>
+                        <option value="PL">PL (Padang Sidempuan)</option>
+                        <option value="PM">PM (Prabumulih)</option>
+                        <option value="PN">PN (Ponorogo)</option>
+                        <option value="PO">PO (Polewali)</option>
+                        <option value="PP">PP (Pekalongan)</option>
+                        <option value="PW">PW (Purworejo)</option>
+                        <option value="RA">RA (Banyuwangi)</option>
+                        <option value="RB">RB (Bima)</option>
+                        <option value="RC">RC (Cilegon)</option>
+                        <option value="RD">RD (Serdang Bedagai)</option>
+                        <option value="RE">RE (Rokan Hilir)</option>
+                        <option value="RG">RG (Rembang)</option>
+                        <option value="RH">RH (Aceh Tamiang)</option>
+                        <option value="RI">RI (Kendal)</option>
+                        <option value="RK">RK (Dumai)</option>
+                        <option value="RM">RM (Rembang)</option>
+                        <option value="RN">RN (Bengkayang)</option>
+                        <option value="RO">RO (Rokan Hulu)</option>
+                        <option value="RP">RP (Purwakarta)</option>
+                        <option value="RS">RS (Siak)</option>
+                        <option value="RT">RT (Pelalawan)</option>
+                        <option value="RU">RU (Rokan Hulu)</option>
+                        <option value="RW">RW (Rokan Hulu)</option>
+                        <option value="SA">SA (Dharmasraya)</option>
+                        <option value="SB">SB (Bima)</option>
+                        <option value="SC">SC (Sikka)</option>
+                        <option value="SD">SD (Sidoarjo)</option>
+                        <option value="SE">SE (Lhokseumawe)</option>
+                        <option value="SG">SG (Sukabumi)</option>
+                        <option value="SH">SH (Bekasi)</option>
+                        <option value="SI">SI (Sragen)</option>
+                        <option value="SJ">SJ (Solok)</option>
+                        <option value="SK">SK (Sumatera Barat)</option>
+                        <option value="SL">SL (Tulang Bawang)</option>
+                        <option value="SM">SM (Sukamara)</option>
+                        <option value="SN">SN (Sanggau)</option>
+                        <option value="SP">SP (Soppeng)</option>
+                        <option value="SR">SR (Serang)</option>
+                        <option value="SS">SS (Seluma)</option>
+                        <option value="ST">ST (Sintang)</option>
+                        <option value="SU">SU (Sibolga)</option>
+                        <option value="TA">TA (Tanah Datar)</option>
+                        <option value="TB">TB (Tapanuli Tengah)</option>
+                        <option value="TC">TC (Tana Toraja)</option>
+                        <option value="TD">TD (Tapanuli Utara)</option>
+                        <option value="TE">TE (Tebo)</option>
+                        <option value="TF">TF (Timor Tengah Utara)</option>
+                        <option value="TG">TG (Tapanuli Selatan)</option>
+                        <option value="TH">TH (Tanah Laut)</option>
+                        <option value="TN">TN (Tanjungbalai)</option>
+                        <option value="TO">TO (Toli-Toli)</option>
+                        <option value="TP">TP (Tapanuli)</option>
+                        <option value="TR">TR (Ternate)</option>
+                        <option value="TS">TS (Timor Tengah Selatan)</option>
+                        <option value="TT">TT (Tapanuli Tengah)</option>
+                        <option value="TW">TW (Tana Toraja)</option>
+                        <option value="TX">TX (Toraja Utara)</option>
+                        <option value="WA">WA (Palu)</option>
+                        <option value="WB">WB (Mamuju)</option>
+                        <option value="WC">WC (Bone)</option>
+                        <option value="WD">WD (Luwu)</option>
+                        <option value="WE">WE (Wajo)</option>
+                        <option value="WF">WF (Pinrang)</option>
+                        <option value="WG">WG (Polewali)</option>
+                        <option value="WH">WH (Palopo)</option>
+                        <option value="WR">WR (Sidrap)</option>
+                        <option value="WS">WS (Samarinda)</option>
+                    </select>
+                    <input type="text" id="plat-nomor" class="text-upper" placeholder="1234 XX" required>
+                </div>
+            </div>
+
+            <!-- 9. Bergabung -->
+            <div class="form-group">
+                <label for="register-joined"><i class="fas fa-calendar-alt"></i> Bergabung</label>
+                <input type="text" id="register-joined" readonly placeholder="Mengambil tanggal...">
+            </div>
+
+            <button type="submit" class="btn" id="registerBtn">
+                <span>Daftar Sekarang</span>
+                <div class="spinner"></div>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCahZIFKFXMCokFNxCpFokNSVtKzN4llus",
+      authDomain: "cedar-setup-425414-d7.firebaseapp.com",
+      databaseURL: "https://cedar-setup-425414-d7-default-rtdb.firebaseio.com",
+      projectId: "cedar-setup-425414-d7",
+      storageBucket: "cedar-setup-425414-d7.firebasestorage.app",
+      messagingSenderId: "723545991983",
+      appId: "1:723545991983:web:379548d2b425a502a60fda",
+      measurementId: "G-FPL6PF3KWJ"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Elemen DOM
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+
+    // FUNGSI OTOMATIS TANGGAL BERGABUNG
+    function setJoinDate() {
+        const today = new Date();
+        const dateStr = today.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const joinedInput = document.getElementById('register-joined');
+        if(joinedInput) {
+            joinedInput.value = dateStr;
+        }
+    }
+
+    // Panggil fungsi saat halaman siap
+    document.addEventListener('DOMContentLoaded', setJoinDate);
+
+    // Fungsi Toggle Password
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('register-password');
+        const toggleIcon = document.getElementById('togglePassword');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+
+    function showMessage(msg, type) {
+        const messageBox = document.getElementById('message-box');
+        messageBox.textContent = msg;
+        messageBox.className = `message ${type}`;
+        messageBox.style.display = 'block';
+        setTimeout(() => { messageBox.style.display = 'none'; }, 5000);
+    }
+
+    function openTab(evt, tabName) {
+        document.querySelectorAll('.form-container').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        evt.currentTarget.classList.add('active');
+        
+        document.getElementById('message-box').style.display = 'none';
+    }
+
+    function setLoading(button, isLoading) {
+        const spinner = button.querySelector('.spinner');
+        const text = button.querySelector('span');
+        if (isLoading) {
+            button.disabled = true;
+            spinner.style.display = 'block';
+            text.textContent = 'Memproses...';
+        } else {
+            button.disabled = false;
+            spinner.style.display = 'none';
+            text.textContent = button.id === 'loginBtn' ? 'Masuk' : 'Daftar Sekarang';
+        }
+    }
+
+    // Fungsi konversi file ke Base64
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    // LOGIKA REGISTER
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setLoading(registerBtn, true);
+
+        // Ambil Value
+        const nama = document.getElementById('register-nama').value;
+        const titel = document.getElementById('register-titel').value;
+        const status = document.getElementById('register-status').value;
+        const telepon = document.getElementById('register-telepon').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        const picFile = document.getElementById('register-pic').files[0];
+
+        // Ambil Value Plat
+        const platKode = document.getElementById('plat-kode').value;
+        const platNomor = document.getElementById('plat-nomor').value;
+        
+        if(!platNomor) { throw new Error("Harap isi nomor plat."); }
+        const platMobilFinal = platKode + " " + platNomor.toUpperCase();
+
+        // Ambil tanggal
+        const dateStr = document.getElementById('register-joined').value;
+
+        try {
+            // 1. Buat Auth User
+            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            
+            // 2. Proses Foto
+            let profilePicBase64 = '';
+            if (picFile) {
+                profilePicBase64 = await fileToBase64(picFile);
+            } else {
+                profilePicBase64 = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(nama) + '&background=random';
+            }
+
+            // 3. Simpan ke Firestore
+            await db.collection('users').doc(user.uid).set({
+                nama: nama.toUpperCase(),
+                titel: titel,
+                telepon: telepon,
+                email: email,
+                platMobil: platMobilFinal,
+                status: status,
+                bergabung: dateStr,
+                profilePicUrl: profilePicBase64,
+                role: 'anggota',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            showMessage('Registrasi berhasil! Silakan login.', 'success');
+            document.getElementById('registerForm').reset();
+            setJoinDate();
+            
+            setTimeout(() => {
+                const loginTabBtn = document.querySelector('.tab-button');
+                openTab({ currentTarget: loginTabBtn }, 'login');
+            }, 1500);
+
+        } catch (error) {
+            showMessage(error.message, 'error');
+        } finally {
+            setLoading(registerBtn, false);
+        }
+    });
+
+    // LOGIKA LOGIN
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setLoading(loginBtn, true);
+
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            showMessage('Login berhasil! Mengalihkan...', 'success');
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        } catch (error) {
+            showMessage(error.message, 'error');
+        } finally {
+            setLoading(loginBtn, false);
+        }
+    });
+
+    function resetPassword() {
+        const email = prompt('Masukkan email Anda untuk menerima link reset password:');
+        if (email) {
+            auth.sendPasswordResetEmail(email).then(() => {
+                showMessage(`Link reset password telah dikirim ke ${email}`, 'success');
+            }).catch((error) => {
+                showMessage(error.message, 'error');
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

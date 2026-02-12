@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!-- Script Grafik -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --primary: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --secondary: #8b5cf6;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --info: #06b6d4;
+  --dark: #1e293b;
+  --light: #f8fafc;
+  --gray: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --sidebar-width: 280px;
+  --header-height: 70px;
+}
+
+[data-theme="dark"] {
+  --light: #0f172a;
+  --dark: #f8fafc;
+  --border: #334155;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --bg-primary: #1e293b;
+  --bg-secondary: #334155;
+  --bg-tertiary: #475569;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-secondary);
+  min-height: 100vh;
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid var(--border);
+  border-top: 4px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--bg-primary);
+  border-right:1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  padding-top: 20px;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+/* User Profile */
+.user-profile {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 10px;
+  overflow: hidden;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.user-role {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.sidebar.collapsed .user-profile {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.sidebar.collapsed .user-avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+}
+
+.sidebar.collapsed .user-name,
+.sidebar.collapsed .user-role {
+  display: none;
+}
+
+/* Navigation */
+.nav-menu {
+  padding: 10px 0;
+}
+
+.nav-section {
+  margin-bottom: 20px;
+}
+
+.nav-section-title {
+  padding: 10px 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar.collapsed .nav-section-title {
+  display: none;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: default;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: var(--gradient);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.nav-item.active {
+  background: var(--bg-tertiary);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.nav-item.active::before {
+  transform: translateX(0);
+}
+
+.nav-item i {
+  width: 24px;
+  margin-right: 12px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.nav-item span {
+  flex: 1;
+}
+
+.nav-badge {
+  background: var(--danger);
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  min-width: 18px;
+  text-align: center;
+}
+
+.sidebar.collapsed .nav-item span,
+.sidebar.collapsed .nav-badge {
+  display: none;
+}
+
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 12px;
+}
+
+.sidebar.collapsed .nav-item i {
+  margin-right: 0;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  background: var(--bg-secondary);
+}
+
+.main-content.expanded {
+  margin-left: 80px;
+}
+
+/* Header */
+.header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  padding: 0 30px;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb-item.active {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-action-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header-action-btn:hover {
+  background: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+
+/* Content Area */
+.content {
+  padding: 30px;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.view {
+  display: block;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.stat-info h3 {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.stat-change {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--success);
+}
+
+.stat-change.negative {
+  color: var(--danger);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  background: var(--gradient);
+  color: white;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Charts */
+.chart-container {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.chart-title {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.chart-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chart-control {
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chart-control:hover,
+.chart-control.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 400px;
+}
+
+/* Cards */
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: var(--shadow);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.btn-outline:hover {
+  background: var(--bg-secondary);
+}
+
+.btn-primary {
+  background: var(--gradient);
+  color: white;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid var(--success); }
+.badge-primary { background: rgba(59, 130, 246, 0.1); color: var(--primary); border: 1px solid var(--primary); }
+.badge-info { background: rgba(6, 182, 212, 0.1); color: var(--info); border: 1px solid var(--info); }
+.badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid var(--warning); }
+
+/* Settings Item */
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.settings-item:last-child { border-bottom: none; }
+
+.settings-info h4 { color: var(--text-primary); font-weight: 600; margin-bottom: 5px; }
+.settings-info p { color: var(--text-secondary); font-size: 0.9rem; }
+.settings-control { display: flex; align-items: center; gap: 10px; }
+
+/* Empty State */
+.table-empty { text-align: center; padding: 40px; color: var(--text-secondary); }
+
+/* --- QUICK ACCESS GRID STYLE --- */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 20px;
+}
+
+.quick-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 15px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.quick-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow);
+  background: var(--bg-primary);
+}
+
+.quick-item:hover::before {
+  transform: scaleX(1);
+}
+
+.quick-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.quick-item:hover .quick-icon {
+  background: var(--primary);
+  color: white;
+}
+
+.quick-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { width: 80px; }
+  .sidebar.collapsed { width: 0; }
+  .main-content { margin-left: 80px; }
+  .header { padding: 0 20px; }
+  .content { padding: 20px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .quick-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-spinner"></div>
+  <h2 style="color: var(--text-primary); margin-bottom: 10px;">SISTEM</h2>
+  <p style="color: var(--text-secondary);">Memuat Dashboard...</p>
+</div>
+
+<div class="app-container">
+  <!-- Sidebar (Header BGT PRO HILANG) -->
+  <aside class="sidebar" id="sidebar">
+    <!-- User Profile (Pindah ke paling atas) -->
+    <div class="user-profile">
+      <div class="user-avatar">
+        <img src="https://picsum.photos/seed/bgt/60/60" id="sidebarUserAvatar" alt="User Avatar" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid #fff;">
+      </div>
+      <div class="user-name">BUNDA</div>
+      <div class="user-role">Administrator</div>
+    </div>
+
+    <nav class="nav-menu">
+      <div class="nav-section">
+        <div class="nav-section-title">Main Menu</div>
+        <a class="nav-item active">
+          <i class="fas fa-th-large"></i>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item" style="opacity: 0.6;">
+          <i class="fas fa-users"></i>
+          <span>Anggota</span>
+          <span class="nav-badge" id="membersBadge">0</span>
+        </a>
+        <a class="nav-item" style="opacity: 0.6;">
+          <i class="fas fa-exchange-alt"></i>
+          <span>Transaksi</span>
+          <span class="nav-badge" id="transactionsBadge">0</span>
+        </a>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">System</div>
+        <a class="nav-item" style="opacity: 0.6;">
+          <i class="fas fa-cog"></i>
+          <span>Pengaturan</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="breadcrumb">
+          <div class="breadcrumb-item">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="breadcrumb-item active">Dashboard</div>
+        </div>
+      </div>
+      
+      <div class="header-actions">
+        <button class="header-action-btn" onclick="toggleTheme()" title="Toggle Theme">
+          <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+        <button class="header-action-btn" title="Notifications">
+          <i class="fas fa-bell"></i>
+          <span class="nav-badge" id="notificationBadge" style="position:absolute; top:-5px; right:-5px;">0</span>
+        </button>
+        <!-- MENU BURGER DIPINDAH KESINI (Pojok Kanan Atas) -->
+        <button class="header-action-btn" onclick="toggleSidebar()" title="Toggle Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <button class="header-action-btn" title="User Menu">
+           <i class="fas fa-user"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- DASHBOARD VIEW ONLY -->
+      <div id="dashboard" class="view active">
+        
+        <!-- QUICK ACCESS MENU (PINDAH KE ATAS, DI BAWAH HEADER) -->
+        <div class="card" style="margin-bottom: 30px;">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-th-large"></i>
+              Akses Cepat
+            </h3>
+            <div style="font-size:0.85rem; color:var(--text-secondary);">Menu navigasi sistem</div>
+          </div>
+          
+          <div class="quick-grid">
+            <!-- Anggota -->
+            <a href="anggota.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-users"></i></div>
+              <span class="quick-label">Anggota</span>
+            </a>
+            
+            <!-- Transaksi -->
+            <a href="transaksi.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-money-bill-wave"></i></div>
+              <span class="quick-label">Transaksi</span>
+            </a>
+            
+            <!-- Kopdar -->
+            <a href="kopdar.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-handshake"></i></div>
+              <span class="quick-label">Kopdar</span>
+            </a>
+            
+            <!-- Promo -->
+            <a href="promo.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-bullhorn"></i></div>
+              <span class="quick-label">Promo</span>
+            </a>
+            
+            <!-- Laporan -->
+            <a href="laporan.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+              <span class="quick-label">Laporan</span>
+            </a>
+            
+            <!-- Analytics -->
+            <a href="Analytics.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-chart-pie"></i></div>
+              <span class="quick-label">Analytics</span>
+            </a>
+            
+            <!-- Forecast -->
+            <a href="Forecast.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-chart-line"></i></div>
+              <span class="quick-label">Forecast</span>
+            </a>
+            
+            <!-- Pengaturan -->
+            <a href="Pengaturan.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-cogs"></i></div>
+              <span class="quick-label">Pengaturan</span>
+            </a>
+            
+            <!-- Backup -->
+            <a href="Backup.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-cloud-download-alt"></i></div>
+              <span class="quick-label">Backup</span>
+            </a>
+            
+            <!-- System Info -->
+            <a href="System Info.html" class="quick-item">
+              <div class="quick-icon"><i class="fas fa-info-circle"></i></div>
+              <span class="quick-label">System Info</span>
+            </a>
+          </div>
+        </div>
+        <!-- AKHIR QUICK ACCESS MENU -->
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-info">
+                <h3>Total Kas</h3>
+                <div class="stat-value" id="totalKas">Rp 0</div>
+                <div class="stat-change">
+                  <i class="fas fa-arrow-up"></i>
+                  <span id="kasChange">+0% bulan ini</span>
+                </div>
+              </div>
+              <div class="stat-icon">
+                <i class="fas fa-wallet"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-info">
+                <h3>Total Anggota</h3>
+                <div class="stat-value" id="totalAnggota">0</div>
+                <div class="stat-change">
+                  <i class="fas fa-arrow-up"></i>
+                  <span id="anggotaChange">+0 bulan ini</span>
+                </div>
+              </div>
+              <div class="stat-icon">
+                <i class="fas fa-users"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-info">
+                <h3>Transaksi Hari Ini</h3>
+                <div class="stat-value" id="transaksiHariIni">0</div>
+                <div class="stat-change">
+                  <i class="fas fa-arrow-up"></i>
+                  <span id="transaksiChange">+0 dari kemarin</span>
+                </div>
+              </div>
+              <div class="stat-icon">
+                <i class="fas fa-exchange-alt"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-info">
+                <h3>Total Hutang</h3>
+                <div class="stat-value" id="totalHutang">Rp 0</div>
+                <div class="stat-change">
+                  <i class="fas fa-arrow-up"></i>
+                  <span id="hutangChange">+0 bulan ini</span>
+                </div>
+              </div>
+              <div class="stat-icon">
+                <i class="fas fa-hand-holding-usd"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <!-- ID ADDED HERE: cashFlowChartContainer -->
+        <div class="chart-container" id="cashFlowChartContainer">
+          <div class="chart-header">
+            <h3 class="chart-title">Analisis Arus Kas</h3>
+            <div class="chart-controls">
+              <button class="chart-control active" onclick="updateChartPeriod('week', this)">Minggu</button>
+              <button class="chart-control" onclick="updateChartPeriod('month', this)">Bulan</button>
+              <button class="chart-control" onclick="updateChartPeriod('year', this)">Tahun</button>
+              <button class="btn btn-primary btn-sm" onclick="updateCashFlowChart()">
+                <i class="fas fa-sync"></i> Refresh
+              </button>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="cashFlowChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-history"></i>
+              Aktivitas Terkini
+            </h3>
+            <div style="font-size:0.85rem; color:var(--text-secondary);">Log aktivitas sistem</div>
+          </div>
+          <div id="recentActivities">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Upcoming Events -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-calendar"></i>
+              Event Mendatang
+            </h3>
+          </div>
+          <div id="upcomingEvents">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+      <!-- END DASHBOARD VIEW -->
+    </div>
+  </main>
+</div>
+
+<script>
+// Simplified Data System for Dashboard Only
+const DashboardSystem = {
+  data: {
+    members: [],
+    transactions: [],
+    events: [],
+    activities: []
+  },
+  config: {
+    theme: 'light',
+    currency: 'IDR'
+  },
+  
+  init() {
+    try {
+      this.loadSampleData();
+      this.applyTheme();
+      this.updateDashboard();
+      this.hideLoadingScreen();
+    } catch (error) {
+      console.error("Error saat inisialisasi:", error);
+      this.hideLoadingScreen(); 
+      alert("Terjadi kesalahan memuat dashboard.");
+    }
+  },
+  
+  hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+      }, 800);
+    }
+  },
+
+  loadSampleData() {
+    // Mock Members
+    this.data.members = [
+      { id: 'BGT001', name: 'Leong', status: 'Aktif', joinDate: '2024-01-15' },
+      { id: 'BGT002', name: 'Firza', status: 'Aktif', joinDate: '2024-02-20' },
+      { id: 'BGT003', name: 'Edi', status: 'Aktif', joinDate: '2024-03-10' }
+    ];
+
+    // Mock Transactions
+    const today = new Date().toISOString().split('T')[0];
+    this.data.transactions = [
+      { id: 'TRX001', type: 'iuran', amount: 150000, date: today, status: 'completed' },
+      { id: 'TRX002', type: 'kas', amount: 50000, date: today, status: 'completed' },
+      { id: 'TRX003', type: 'hutang', amount: 500000, date: '2024-01-20', status: 'pending' }
+    ];
+
+    // Mock Events
+    this.data.events = [
+      { 
+        id: 'EVT001', 
+        name: 'Rapat Bulanan', 
+        startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), 
+        location: 'Kantor BGT PRO', 
+        status: 'upcoming' 
+      }
+    ];
+
+    // Mock Activities
+    this.data.activities = [
+      { type: 'transaction_added', description: 'Iuran diterima dari Leong', timestamp: new Date().toISOString() },
+      { type: 'member_added', description: 'Anggota baru terdaftar: Firza', timestamp: new Date(Date.now() - 86400000).toISOString() },
+      { type: 'event_added', description: 'Event Rapat Bulanan dibuat', timestamp: new Date(Date.now() - 172800000).toISOString() }
+    ];
+
+    // Update Badges
+    document.getElementById('membersBadge').textContent = this.data.members.length;
+    document.getElementById('transactionsBadge').textContent = this.data.transactions.length;
+  },
+
+  applyTheme() {
+    const theme = this.config.theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    const icon = document.getElementById('themeIcon');
+    if(icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  },
+
+  getStats() {
+    const totalKas = this.data.transactions
+      .filter(t => t.status === 'completed')
+      .reduce((sum, t) => sum + t.amount, 0);
+    
+    const totalHutang = this.data.transactions
+      .filter(t => t.type === 'hutang')
+      .reduce((sum, t) => sum + t.amount, 0);
+
+    return {
+      totalKas,
+      totalAnggota: this.data.members.length,
+      transaksiHariIni: this.data.transactions.filter(t => t.date === new Date().toISOString().split('T')[0]).length,
+      totalHutang
+    };
+  },
+
+  formatCurrency(amount) {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(amount);
+  },
+
+  formatDate(dateString) {
+    return new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium' }).format(new Date(dateString));
+  },
+  
+  formatDateTime(dateString) {
+    return new Intl.DateTimeFormat('id-ID', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(dateString));
+  }
+};
+
+// Global Variables
+let cashFlowChart = null;
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  DashboardSystem.init();
+});
+
+// Functions
+function updateDashboard() {
+  const stats = DashboardSystem.getStats();
+
+  // Update Stats
+  const elTotalKas = document.getElementById('totalKas');
+  const elTotalAnggota = document.getElementById('totalAnggota');
+  const elTrxHariIni = document.getElementById('transaksiHariIni');
+  const elTotalHutang = document.getElementById('totalHutang');
+
+  if(elTotalKas) elTotalKas.textContent = DashboardSystem.formatCurrency(stats.totalKas);
+  if(elTotalAnggota) elTotalAnggota.textContent = stats.totalAnggota;
+  if(elTrxHariIni) elTrxHariIni.textContent = stats.transaksiHariIni;
+  if(elTotalHutang) elTotalHutang.textContent = DashboardSystem.formatCurrency(stats.totalHutang);
+
+  // Render Activities
+  const activitiesContainer = document.getElementById('recentActivities');
+  if(activitiesContainer) {
+    activitiesContainer.innerHTML = DashboardSystem.data.activities.map(act => `
+      <div class="settings-item">
+        <div class="settings-info">
+          <h4>${act.description}</h4>
+          <p>${DashboardSystem.formatDateTime(act.timestamp)}</p>
+        </div>
+        <div class="settings-control">
+          <span class="badge badge-primary">${act.type.replace('_', ' ')}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Render Events
+  const eventsContainer = document.getElementById('upcomingEvents');
+  if(eventsContainer) {
+    eventsContainer.innerHTML = DashboardSystem.data.events.map(evt => `
+      <div class="settings-item">
+        <div class="settings-info">
+          <h4>${evt.name}</h4>
+          <p><i class="fas fa-calendar"></i> ${DashboardSystem.formatDate(evt.startDate)}</p>
+          <p><i class="fas fa-map-marker-alt"></i> ${evt.location}</p>
+        </div>
+        <div class="settings-control">
+          <span class="badge badge-success">${evt.status}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // LOGIKA BARU: Sembunyikan Chart Jika Tidak Ada Transaksi
+  const chartContainer = document.getElementById('cashFlowChartContainer');
+  if (DashboardSystem.data.transactions.length === 0) {
+    if(chartContainer) chartContainer.style.display = 'none';
+  } else {
+    if(chartContainer) chartContainer.style.display = 'block';
+    updateCashFlowChart();
+  }
+}
+
+function updateCashFlowChart(period = 'week') {
+  const canvas = document.getElementById('cashFlowChart');
+  const ctx = canvas ? canvas.getContext('2d') : null;
+  const wrapper = document.querySelector('.chart-wrapper');
+  
+  if (!ctx || !wrapper) return;
+
+  // Cek Chart.js
+  if (typeof Chart === 'undefined') {
+    console.error("Chart.js belum dimuat.");
+    wrapper.innerHTML = 
+      '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-secondary);text-align:center;flex-direction:column;">' +
+      '<i class="fas fa-exclamation-triangle" style="margin-bottom:15px;font-size:40px;color:var(--warning);"></i>' +
+      '<h3>Gagal Memuat Grafik</h3>' +
+      '<p>Harap periksa koneksi internet Anda agar Chart.js dapat dimuat.</p>' +
+      '</div>';
+    return;
+  }
+
+  let labels = [];
+  let dataIn = [];
+  let dataOut = [];
+
+  // Mock Data generation
+  if (period === 'week') {
+    labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+    dataIn = [1500000, 1200000, 1800000, 1400000, 2100000, 1700000, 1900000];
+    dataOut = [500000, 400000, 600000, 300000, 800000, 450000, 550000];
+  } else if (period === 'month') {
+    labels = ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'];
+    dataIn = [8500000, 9200000, 7800000, 10500000];
+    dataOut = [2100000, 2400000, 1900000, 2800000];
+  } else {
+    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'];
+    dataIn = [15000000, 18000000, 16500000, 22000000, 25000000, 28000000];
+    dataOut = [5000000, 4000000, 6000000, 3000000, 8000000, 5500000];
+  }
+
+  if (cashFlowChart) {
+    cashFlowChart.destroy();
+  }
+
+  try {
+    cashFlowChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Pemasukan',
+            data: dataIn,
+            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+            borderRadius: 6
+          },
+          {
+            label: 'Pengeluaran',
+            data: dataOut,
+            backgroundColor: 'rgba(239, 68, 68, 0.8)',
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom' }
+        },
+        scales: {
+          y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  } catch (e) {
+    console.error("Gagal merender grafik:", e);
+  }
+}
+
+function updateChartPeriod(period, btnElement) {
+  document.querySelectorAll('.chart-control').forEach(b => b.classList.remove('active'));
+  if(btnElement) btnElement.classList.add('active');
+  updateCashFlowChart(period);
+}
+
+function toggleTheme() {
+  DashboardSystem.config.theme = DashboardSystem.config.theme === 'light' ? 'dark' : 'light';
+  DashboardSystem.applyTheme();
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.getElementById('mainContent');
+  if(sidebar) sidebar.classList.toggle('collapsed');
+  if(mainContent) mainContent.classList.toggle('expanded');
+}
+</script>
+
+</body>
+</html>
