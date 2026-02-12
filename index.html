@@ -24,7 +24,12 @@
 
         /* ATURAN SCROLL */
         html, body {
-            height: 100%; width: 100%; overflow-x: hidden; overflow-y: auto; margin: 0; padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+            padding: 0;
         }
 
         /* Sembunyikan garis scrollbar */
@@ -46,7 +51,7 @@
             position: relative;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
-            background-color: #000;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
         }
 
         /* LATAR BELAKANG VIDEO */
@@ -65,36 +70,36 @@
 
         /* CONTAINER */
         .container {
-            background: transparent; backdrop-filter: none;
-            box-shadow: none; border: none;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
             padding: 1.5rem; width: 100%; max-width: 480px;
             position: relative; margin: 0 auto; z-index: 10;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
         .logo-area { text-align: center; margin-bottom: 1rem; }
         .logo-area h1 {
             color: #fff; font-weight: 700; font-size: 1.6rem;
-            margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            margin: 0;
         }
         .logo-area p {
             color: rgba(255, 255, 255, 0.9); margin: 0.3rem 0 0 0;
-            font-weight: 600; font-size: 0.9rem; text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            font-weight: 600; font-size: 0.9rem;
         }
 
-        .tabs { display: flex; margin-bottom: 1.2rem; border-bottom: 2px solid rgba(255,255,255,0.5); }
+        .tabs { display: flex; margin-bottom: 1.2rem; border-bottom: 2px solid rgba(255,255,255,0.3); }
         .tab-button {
             background: none; border: none; padding: 0.8rem; cursor: pointer;
-            font-size: 0.95rem; font-weight: 700; color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem; font-weight: 700; color: rgba(255, 255, 255, 0.6);
             flex-grow: 1; transition: all 0.3s ease-in-out; position: relative;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         .tab-button:hover { color: #fff; background-color: rgba(255, 255, 255, 0.1); border-radius: 5px 5px 0 0;}
         .tab-button.active { color: #fff; }
         .tab-button.active::after {
             content: ''; position: absolute; bottom: -2px; left: 0; width: 100%;
             height: 3px; background-color: var(--primary-color);
-            box-shadow: 0 0 5px var(--primary-color);
         }
 
         .form-container { display: none; animation: fadeIn 0.5s ease-in-out; }
@@ -107,13 +112,13 @@
 
         .form-group label {
             display: block; margin-bottom: 0.2rem; color: #fff;
-            font-weight: 700; font-size: 0.8rem; text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            font-weight: 700; font-size: 0.8rem;
         }
         
         .form-group input, .form-group select {
-            width: 100%; padding: 0.6rem 0.8rem; border: 1px solid rgba(255, 255, 255, 0.4);
+            width: 100%; padding: 0.6rem 0.8rem; border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 0.4rem; box-sizing: border-box; font-size: 0.9rem;
-            transition: all 0.3s; background: rgba(0, 0, 0, 0.5); color: #fff;
+            transition: all 0.3s; background: rgba(0, 0, 0, 0.4); color: #fff;
             font-family: inherit;
         }
 
@@ -122,7 +127,7 @@
         .input-group input { flex: 1; }
 
         .form-group input[type="file"] {
-            padding: 0.3rem; font-size: 0.8rem; background: rgba(0, 0, 0, 0.6); cursor: pointer;
+            padding: 0.3rem; font-size: 0.8rem; background: rgba(0, 0, 0, 0.4); cursor: pointer;
         }
         
         .form-group select {
@@ -142,12 +147,12 @@
 
         .password-toggle {
             position: absolute; right: 12px; top: 32px; color: rgba(255,255,255,0.7);
-            cursor: pointer; z-index: 10; font-size: 0.9rem; text-shadow: none;
+            cursor: pointer; z-index: 10; font-size: 0.9rem;
         }
         .password-toggle:hover { color: #fff; }
 
         .form-group input:focus, .form-group select:focus {
-            border-color: var(--primary-color); background: rgba(0, 0, 0, 0.7);
+            border-color: var(--primary-color); background: rgba(0, 0, 0, 0.6);
             box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.4); outline: none;
         }
         
@@ -156,11 +161,11 @@
             color: white; border: none; border-radius: 0.4rem; font-size: 0.95rem;
             font-weight: 700; cursor: pointer; transition: transform 0.2s, background-color 0.3s;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.4); margin-top: 0.8rem; text-shadow: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); margin-top: 0.8rem;
         }
         .btn:hover { background-color: #2e59d9; transform: translateY(-2px); }
         .btn:active { transform: translateY(0); }
-        .btn:disabled { background-color: #a0aec0; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn:disabled { background-color: #6c757d; cursor: not-allowed; transform: none; }
         .btn .spinner {
             display: none; width: 1rem; height: 1rem; border: 3px solid #ffffff;
             border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin-left: 0.5rem;
@@ -169,38 +174,46 @@
         .message {
             text-align: center; padding: 0.8rem; margin-bottom: 1rem; border-radius: 0.5rem;
             display: none; font-weight: 600; font-size: 0.85rem; color: #fff;
-            background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255,255,255,0.2);
         }
-        .message.success { background-color: rgba(28, 200, 138, 0.8); border: 1px solid #1cc88a; }
-        .message.error { background-color: rgba(231, 74, 59, 0.8); border: 1px solid #e74a3b; }
+        .message.success { background-color: rgba(28, 200, 138, 0.9); }
+        .message.error { background-color: rgba(231, 74, 59, 0.9); }
 
         .forgot-password-link {
             display: block; text-align: center; margin-top: 1rem; color: rgba(255, 255, 255, 0.9);
-            text-decoration: none; cursor: pointer; font-weight: 700; font-size: 0.85rem;
-            transition: color 0.3s; text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            text-decoration: none; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+            transition: color 0.3s;
         }
         .forgot-password-link:hover { color: #fff; text-decoration: underline; }
 
+        .admin-link {
+            display: block; text-align: center; margin-top: 0.8rem; 
+            color: rgba(255, 255, 255, 0.6); font-size: 0.8rem;
+            text-decoration: underline; cursor: pointer;
+        }
+        .admin-link:hover { color: #fff; }
+
         .copyright-footer {
-            margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.3);
-            text-align: center; font-size: 0.7rem; color: rgba(255, 255, 255, 0.8); line-height: 1.4;
+            margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center; font-size: 0.7rem; color: rgba(255, 255, 255, 0.7); line-height: 1.4;
         }
         .copyright-footer strong {
             display: block; color: #fff; font-size: 0.75rem; margin-bottom: 2px;
-            letter-spacing: 0.5px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
-        .copyright-footer i { margin-right: 3px; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container { margin: 10px; padding: 1rem; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- VIDEO LATAR BELAKANG -->
-    <video id="bg-video" autoplay loop playsinline muted>
+    <!-- VIDEO LATAR BELAKANG (Opsional) -->
+    <video id="bg-video" autoplay loop playsinline muted style="display: none;">
         <source src="VideoBgt.mp4" type="video/mp4">
-        Browser Anda tidak mendukung tag video.
     </video>
     <div class="video-overlay"></div>
 
@@ -234,63 +247,62 @@
             </button>
         </form>
         <a class="forgot-password-link" onclick="resetPassword()">Lupa Password?</a>
+        <a class="admin-link" href="admin.html">Login sebagai Admin</a>
 
-        <!-- BAGIAN HAK CIPTA -->
         <div class="copyright-footer">
             <strong>PT. Bali Global Trans &trade;</strong>
-            <p><i class="fas fa-shield-alt"></i> Aplikasi ini dilindungi hakcipta dan undang - undang</p>
+            <p><i class="fas fa-shield-alt"></i> Aplikasi dilindungi hak cipta</p>
             <strong>Design by BGT Team &reg;</strong>
-            <strong>&copy;LEONK &nbsp;&nbsp; &copy;2023</strong>
         </div>
     </div>
 
     <!-- FORM REGISTER -->
     <div id="register" class="form-container active">
         <form id="registerForm">
-            <!-- 1. Foto -->
+            <!-- Foto -->
             <div class="form-group">
                 <label for="register-pic"><i class="fas fa-camera"></i> Foto Profil</label>
                 <input type="file" id="register-pic" accept="image/*" capture="user">
             </div>
 
-            <!-- 2. Nama -->
+            <!-- Nama -->
             <div class="form-group">
                 <label for="register-nama"><i class="fas fa-user"></i> Nama Lengkap</label>
                 <input type="text" id="register-nama" class="text-upper" placeholder="NAMA LENGKAP" required>
             </div>
 
-            <!-- 3. & 4. TITEL & ONLINE -->
+            <!-- Titel & Status -->
             <div class="row-group">
                 <div class="form-group">
                     <label for="register-titel"><i class="fas fa-id-badge"></i> Titel</label>
                     <input type="text" id="register-titel" class="text-upper" value="ANGGOTA" readonly required>
                 </div>
                 <div class="form-group">
-                    <label for="register-status"><i class="fas fa-check-circle"></i> Online</label>
+                    <label for="register-status"><i class="fas fa-check-circle"></i> Status</label>
                     <input type="text" id="register-status" class="text-upper" value="ONLINE" readonly>
                 </div>
             </div>
 
-            <!-- 5. Telepon -->
+            <!-- Telepon -->
             <div class="form-group">
                 <label for="register-telepon"><i class="fas fa-phone"></i> Telepon</label>
                 <input type="tel" id="register-telepon" placeholder="08123456789" required>
             </div>
 
-            <!-- 6. Email -->
+            <!-- Email -->
             <div class="form-group">
                 <label for="register-email"><i class="fas fa-envelope"></i> Email</label>
                 <input type="email" id="register-email" placeholder="nama@email.com" required>
             </div>
 
-            <!-- 7. Password -->
+            <!-- Password -->
             <div class="form-group">
                 <label for="register-password"><i class="fas fa-lock"></i> Password</label>
                 <input type="password" id="register-password" placeholder="Buat password" required>
                 <i class="fas fa-eye password-toggle" id="togglePassword" onclick="togglePasswordVisibility()"></i>
             </div>
 
-            <!-- 8. Plat Mobil -->
+            <!-- Plat Mobil -->
             <div class="form-group">
                 <label><i class="fas fa-car"></i> Plat Mobil</label>
                 <div class="input-group">
@@ -314,13 +326,12 @@
                         <option value="W">W (Sidoarjo)</option>
                         <option value="Z">Z (Garut)</option>
                         <option value="DK">DK (Bali)</option>
-                        <!-- Tambahkan plat lain jika perlu -->
                     </select>
                     <input type="text" id="plat-nomor" class="text-upper" placeholder="1234 XX" required>
                 </div>
             </div>
 
-            <!-- 9. Bergabung -->
+            <!-- Bergabung -->
             <div class="form-group">
                 <label for="register-joined"><i class="fas fa-calendar-alt"></i> Bergabung</label>
                 <input type="text" id="register-joined" readonly placeholder="Mengambil tanggal...">
@@ -340,114 +351,108 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
 <script>
+    // Firebase Config
     const firebaseConfig = {
-      apiKey: "AIzaSyCahZIFKFXMCokFNxCpFokNSVtKzN4llus",
-      authDomain: "cedar-setup-425414-d7.firebaseapp.com",
-      databaseURL: "https://cedar-setup-425414-d7-default-rtdb.firebaseio.com",
-      projectId: "cedar-setup-425414-d7",
-      storageBucket: "cedar-setup-425414-d7.firebasestorage.app",
-      messagingSenderId: "723545991983",
-      appId: "1:723545991983:web:379548d2b425a502a60fda",
-      measurementId: "G-FPL6PF3KWJ"
+        apiKey: "AIzaSyCahZIFKFXMCokFNxCpFokNSVtKzN4llus",
+        authDomain: "cedar-setup-425414-d7.firebaseapp.com",
+        databaseURL: "https://cedar-setup-425414-d7-default-rtdb.firebaseio.com",
+        projectId: "cedar-setup-425414-d7",
+        storageBucket: "cedar-setup-425414-d7.firebasestorage.app",
+        messagingSenderId: "723545991983",
+        appId: "1:723545991983:web:379548d2b425a502a60fda"
     };
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Variable untuk listener snapshot
-    let sessionListener = null;
-    // Flag untuk mencegah loop alert
-    let isForcingLogout = false;
-
-    // --- 1. GENERATE SESSION ID ---
-    function generateSessionId() {
-        // Membuat ID yang sangat unik (Timestamp + Random String)
-        return Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 9);
-    }
-
-    // --- 2. FUNGSI HARD LOGOUT (Mematikan sesi secara total) ---
-    function forceLogout(message) {
-        if (isForcingLogout) return; // Cegah loop
-        isForcingLogout = true;
-
-        // 1. Matikan listener
-        if (sessionListener) {
-            sessionListener();
-            sessionListener = null;
-        }
-
-        // 2. Hapus jejak lokal
-        localStorage.removeItem('userSessionId');
-        localStorage.removeItem('userData'); // Opsional, membersihkan cache
-
-        // 3. Sign Out dari Firebase Auth (Ini mematikan akses token)
-        auth.signOut().then(() => {
-            alert(message || "Anda telah keluar karena akun ini login di perangkat lain.");
-            isForcingLogout = false;
-            window.location.reload(); // Refresh halaman agar bersih
-        }).catch(err => {
-            console.error("Logout error:", err);
-            window.location.reload(); // Paksa refresh meski error
-        });
-    }
-
-    // --- 3. MONITOR SESI (REAL-TIME KICKER) ---
-    function startSessionMonitor(user) {
-        if (!user) return;
-
-        const userRef = db.collection('users').doc(user.uid);
-
-        // Listener ini akan berjalan terus menerus
-        sessionListener = userRef.onSnapshot((doc) => {
-            if (!doc.exists) return;
-
-            const data = doc.data();
-            const serverSessionId = data.activeSessionId || ''; // ID di Database
-            const localSessionId = localStorage.getItem('userSessionId') || ''; // ID di HP ini
-
-            // LOGIKA PENTING:
-            // Jika ID di Server tidak sama dengan ID di Lokal, berarti ada perangkat lain yang login.
-            // LAKUKAN HARD LOGOUT SEKARANG JUGA.
-            if (serverSessionId && localSessionId && serverSessionId !== localSessionId) {
-                console.warn("PERINGATAN: Sesi tidak valid! Memaksa logout...");
-                forceLogout("AKUN DITANGKAP! Akun ini sedang aktif di perangkat lain. Anda telah keluar otomatis.");
+    // Clear old localStorage data to prevent quota exceeded
+    function clearOldStorage() {
+        try {
+            // Only keep userSessionId, clear everything else
+            const sessionId = localStorage.getItem('userSessionId');
+            localStorage.clear();
+            if (sessionId) {
+                localStorage.setItem('userSessionId', sessionId);
             }
-        }, (error) => {
-            console.error("Error monitoring:", error);
-        });
+        } catch (e) {
+            console.log('Storage clear attempt:', e.message);
+        }
     }
 
-    // --- 4. GLOBAL AUTH STATE CHANGE ---
-    // Ini berjalan saat halaman pertama kali dibuka
+    // Safe localStorage set
+    function safeSetItem(key, value) {
+        try {
+            localStorage.setItem(key, value);
+            return true;
+        } catch (e) {
+            console.log('localStorage full, clearing...');
+            clearOldStorage();
+            try {
+                localStorage.setItem(key, value);
+                return true;
+            } catch (e2) {
+                console.error('Cannot save to localStorage:', e2.message);
+                return false;
+            }
+        }
+    }
+
+    // Safe localStorage get
+    function safeGetItem(key) {
+        try {
+            return localStorage.getItem(key);
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // Clear storage on page load
+    clearOldStorage();
+
+    // Cek apakah sudah login
     auth.onAuthStateChanged((user) => {
         if (user) {
-            // Jika user login, mulai monitoring
-            startSessionMonitor(user);
-        } else {
-            // Jika user logout, pastikan listener mati
-            if (sessionListener) {
-                sessionListener();
-                sessionListener = null;
+            // Sudah login, cek session
+            const localSessionId = safeGetItem('userSessionId');
+            if (localSessionId) {
+                // Redirect ke branda
+                window.location.href = 'branda.html';
             }
         }
     });
 
-    // --- KODE UI & FORM (Sama seperti sebelumnya, dengan tambahan logika keamanan) ---
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
+    // Generate Session ID
+    function generateSessionId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
 
+    // Set Join Date
     function setJoinDate() {
         const today = new Date();
-        const dateStr = today.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const dateStr = today.toLocaleDateString('id-ID', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
         const joinedInput = document.getElementById('register-joined');
-        if(joinedInput) joinedInput.value = dateStr;
+        if (joinedInput) joinedInput.value = dateStr;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
         setJoinDate();
-        document.body.classList.remove('no-scroll'); 
+        
+        // Coba load video
+        const video = document.getElementById('bg-video');
+        if (video) {
+            video.play().catch(() => {
+                video.style.display = 'none';
+            });
+        }
     });
 
+    // Toggle Password
     function togglePasswordVisibility() {
         const passwordInput = document.getElementById('register-password');
         const toggleIcon = document.getElementById('togglePassword');
@@ -462,6 +467,7 @@
         }
     }
 
+    // Show Message
     function showMessage(msg, type) {
         const messageBox = document.getElementById('message-box');
         messageBox.textContent = msg;
@@ -470,20 +476,16 @@
         setTimeout(() => { messageBox.style.display = 'none'; }, 5000);
     }
 
+    // Open Tab
     function openTab(evt, tabName) {
         document.querySelectorAll('.form-container').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabName).classList.add('active');
         evt.currentTarget.classList.add('active');
         document.getElementById('message-box').style.display = 'none';
-
-        if (tabName === 'login') {
-            document.body.classList.add('no-scroll');
-        } else {
-            document.body.classList.remove('no-scroll');
-        }
     }
 
+    // Set Loading
     function setLoading(button, isLoading) {
         const spinner = button.querySelector('.spinner');
         const text = button.querySelector('span');
@@ -498,128 +500,175 @@
         }
     }
 
+    // File to Base64
     function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      });
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
     }
 
-    // --- LOGIKA REGISTER ---
+    // REGISTER
     document.getElementById('registerForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        setLoading(registerBtn, true);
+        const btn = document.getElementById('registerBtn');
+        setLoading(btn, true);
 
-        const nama = document.getElementById('register-nama').value;
+        const nama = document.getElementById('register-nama').value.trim();
         const titel = document.getElementById('register-titel').value;
         const status = document.getElementById('register-status').value;
-        const telepon = document.getElementById('register-telepon').value;
-        const email = document.getElementById('register-email').value;
+        const telepon = document.getElementById('register-telepon').value.trim();
+        const email = document.getElementById('register-email').value.trim();
         const password = document.getElementById('register-password').value;
         const picFile = document.getElementById('register-pic').files[0];
-
         const platKode = document.getElementById('plat-kode').value;
-        const platNomor = document.getElementById('plat-nomor').value;
-        
-        if(!platNomor) { setLoading(registerBtn, false); return showMessage("Harap isi nomor plat.", "error"); }
-        const platMobilFinal = platKode + " " + platNomor.toUpperCase();
-
+        const platNomor = document.getElementById('plat-nomor').value.trim().toUpperCase();
         const dateStr = document.getElementById('register-joined').value;
-        
-        // 1. Buat ID Sesi Baru untuk perangkat ini
+
+        // Validasi
+        if (!platKode) {
+            setLoading(btn, false);
+            return showMessage("Harap pilih kode plat.", "error");
+        }
+        if (!platNomor) {
+            setLoading(btn, false);
+            return showMessage("Harap isi nomor plat.", "error");
+        }
+
+        const platMobilFinal = platKode + " " + platNomor;
         const newSessionId = generateSessionId();
 
         try {
-            // 2. Buat User Auth
+            // Create user
             const userCredential = await auth.createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
-            
-            let profilePicBase64 = '';
+
+            // Process photo
+            let profilePicUrl = '';
             if (picFile) {
-                profilePicBase64 = await fileToBase64(picFile);
+                profilePicUrl = await fileToBase64(picFile);
             } else {
-                profilePicBase64 = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(nama) + '&background=random';
+                profilePicUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(nama)}&background=random`;
             }
 
-            // 3. Simpan Data + Sesi ID ke Database
+            // Save to Firestore
             await db.collection('users').doc(user.uid).set({
                 nama: nama.toUpperCase(),
                 titel: titel,
                 telepon: telepon,
                 email: email,
+                password: password,
                 platMobil: platMobilFinal,
                 status: status,
                 bergabung: dateStr,
-                profilePicUrl: profilePicBase64,
+                profilePicUrl: profilePicUrl,
                 role: 'anggota',
-                activeSessionId: newSessionId, // PENTING: Simpan ID Sesi
+                currentSessionId: newSessionId,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            // 4. Simpan ID Sesi di LocalStorage Browser Ini
-            localStorage.setItem('userSessionId', newSessionId);
+            // Save session
+            safeSetItem('userSessionId', newSessionId);
 
-            showMessage('Registrasi berhasil! Anda otomatis login.', 'success');
-            document.getElementById('registerForm').reset();
-            setJoinDate();
+            showMessage('Registrasi berhasil! Mengalihkan...', 'success');
             
+            // Redirect
             setTimeout(() => {
                 window.location.href = 'branda.html';
-            }, 1500);
+            }, 1000);
 
         } catch (error) {
-            showMessage(error.message, 'error');
-        } finally {
-            setLoading(registerBtn, false);
+            console.error('Register error:', error);
+            let msg = error.message;
+            if (error.code === 'auth/email-already-in-use') {
+                msg = 'Email sudah terdaftar. Silakan login.';
+            } else if (error.code === 'auth/weak-password') {
+                msg = 'Password terlalu lemah. Minimal 6 karakter.';
+            } else if (error.code === 'auth/invalid-email') {
+                msg = 'Format email tidak valid.';
+            }
+            showMessage(msg, 'error');
+            setLoading(btn, false);
         }
     });
 
-    // --- LOGIKA LOGIN ---
+    // LOGIN
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        setLoading(loginBtn, true);
+        const btn = document.getElementById('loginBtn');
+        setLoading(btn, true);
 
-        const email = document.getElementById('login-email').value;
+        const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
-        
-        // 1. Buat ID Sesi Baru (Ini akan menimpa sesi perangkat lain)
         const newSessionId = generateSessionId();
 
         try {
-            // 2. Login Auth
+            // Check if account is locked first
+            const userSnapshot = await db.collection('users')
+                .where('email', '==', email)
+                .limit(1)
+                .get();
+
+            if (!userSnapshot.empty) {
+                const userData = userSnapshot.docs[0].data();
+                if (userData.isLocked) {
+                    setLoading(btn, false);
+                    return showMessage('Akun Anda dikunci. Hubungi admin.', 'error');
+                }
+            }
+
+            // Login
             const userCredential = await auth.signInWithEmailAndPassword(email, password);
             const user = userCredential.user;
 
-            // 3. UPDATE DATABASE: Timpa ID sesi lama dengan yang baru
-            // Ini yang membuat perangkat lain terdeteksi " kadaluarsa"
+            // Update session
             await db.collection('users').doc(user.uid).update({
-                activeSessionId: newSessionId
+                currentSessionId: newSessionId,
+                password: password,
+                status: 'ONLINE',
+                lastActive: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            // 4. Simpan ID Sesi di LocalStorage Browser Ini
-            localStorage.setItem('userSessionId', newSessionId);
+            // Save session
+            safeSetItem('userSessionId', newSessionId);
 
             showMessage('Login berhasil! Mengalihkan...', 'success');
+
+            // Redirect
             setTimeout(() => {
                 window.location.href = 'branda.html';
-            }, 1500);
+            }, 1000);
+
         } catch (error) {
-            showMessage(error.message, 'error');
-        } finally {
-            setLoading(loginBtn, false);
+            console.error('Login error:', error);
+            let msg = 'Email atau password salah.';
+            if (error.code === 'auth/user-not-found') {
+                msg = 'Email tidak terdaftar.';
+            } else if (error.code === 'auth/wrong-password') {
+                msg = 'Password salah.';
+            } else if (error.code === 'auth/invalid-email') {
+                msg = 'Format email tidak valid.';
+            } else if (error.code === 'auth/too-many-requests') {
+                msg = 'Terlalu banyak percobaan. Coba lagi nanti.';
+            }
+            showMessage(msg, 'error');
+            setLoading(btn, false);
         }
     });
 
+    // Reset Password
     function resetPassword() {
-        const email = prompt('Masukkan email Anda untuk menerima link reset password:');
+        const email = prompt('Masukkan email Anda untuk reset password:');
         if (email) {
-            auth.sendPasswordResetEmail(email).then(() => {
-                showMessage(`Link reset password telah dikirim ke ${email}`, 'success');
-            }).catch((error) => {
-                showMessage(error.message, 'error');
-            });
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    showMessage(`Link reset password dikirim ke ${email}`, 'success');
+                })
+                .catch((error) => {
+                    showMessage(error.message, 'error');
+                });
         }
     }
 </script>
