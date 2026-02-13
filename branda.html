@@ -2,332 +2,1028 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Branda - PT. Bali Global Trans</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BGT-PRO - Portal Anggota</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    
     <style>
         :root {
-            --primary-color: #4e73df;
-            --success-color: #1cc88a;
-            --danger-color: #e74a3b;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #06b6d4;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --dark-card: #1e293b;
+            --gray: #64748b;
+            --gray-light: #94a3b8;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+            --gradient-gold: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            --gradient-dark: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            --gradient-pink: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+            --gradient-green: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            --gradient-orange: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.1);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark);
+            color: var(--white);
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: #fff;
-            padding: 20px;
+            overflow-x: hidden;
+            padding-bottom: 90px;
         }
 
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            margin-bottom: 20px;
-        }
-        .header-left h1 {
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .header-left p {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.85rem;
-            margin-top: 3px;
-        }
-        .btn-logout {
-            padding: 10px 20px;
-            background: var(--danger-color);
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 700;
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: opacity 0.3s;
-        }
-        .btn-logout:hover { opacity: 0.9; }
-
-        /* User Card */
-        .user-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
-        }
-        .user-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--primary-color);
-            margin-bottom: 15px;
-        }
-        .user-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        .user-titel {
-            display: inline-block;
-            padding: 5px 15px;
-            background: var(--primary-color);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-        .user-info {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-            text-align: left;
-        }
-        .info-item {
-            background: rgba(0,0,0,0.2);
-            padding: 12px 15px;
-            border-radius: 10px;
-        }
-        .info-item label {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.6);
-            display: block;
-            margin-bottom: 3px;
-        }
-        .info-item span {
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        .info-item.full-width {
-            grid-column: span 2;
-        }
-
-        /* Status Card */
-        .status-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
-        }
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .status-header h3 {
-            font-size: 1rem;
-        }
-        .status-online {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--success-color);
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-        .status-online i {
-            font-size: 0.6rem;
-            animation: pulse 2s infinite;
-        }
-
-        /* Info Box */
-        .info-box {
-            background: rgba(78, 115, 223, 0.2);
-            border: 1px solid var(--primary-color);
-            border-radius: 10px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .info-box i {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-        .info-box p {
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        /* Loading */
-        .loading-container {
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-dark);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 50vh;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
         }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top-color: var(--primary-color);
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-primary);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        .loading-text {
-            color: rgba(255,255,255,0.7);
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.5);
-            font-size: 0.75rem;
-        }
-
-        /* Location Card */
-        .location-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
-        }
-        .location-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .location-header h3 {
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .location-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
-            padding: 5px 12px;
-            border-radius: 20px;
-        }
-        .location-status.active {
-            background: rgba(28, 200, 138, 0.2);
-            color: var(--success-color);
-        }
-        .location-status.inactive {
-            background: rgba(231, 74, 59, 0.2);
-            color: var(--danger-color);
-        }
-        .location-status i {
-            font-size: 0.6rem;
-        }
-        .location-coords {
-            background: rgba(0,0,0,0.2);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        .location-coords p {
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .location-coords span {
-            color: rgba(255,255,255,0.7);
-        }
-        .btn-location {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary-color);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            font-family: inherit;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: opacity 0.3s;
-        }
-        .btn-location:hover { opacity: 0.9; }
-        .btn-location:disabled { opacity: 0.5; cursor: not-allowed; }
-        .location-info {
-            margin-top: 10px;
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.5);
-            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse-glow 2s infinite;
         }
 
-        /* Settings Card */
-        .settings-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
+        .loading-logo i {
+            font-size: 2.5rem;
+            color: white;
         }
-        .settings-header {
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(99, 102, 241, 0); }
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, rgba(15, 23, 42, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .settings-header h3 {
-            font-size: 1rem;
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .back-btn, .menu-btn {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover, .menu-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notif-btn {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            min-width: 18px;
+            height: 18px;
+            background: var(--danger);
+            border-radius: 50%;
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        .notif-badge.hidden {
+            display: none;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            margin: 20px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .profile-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.3);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .profile-status {
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.9);
         }
-        .setting-item {
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.9); }
+        }
+
+        .profile-qr {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .profile-qr:hover {
+            transform: scale(1.1);
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 0 20px 20px;
+        }
+
+        .stat-card {
+            background: var(--dark-light);
+            border-radius: var(--radius);
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            margin: 0 auto 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .stat-icon.location { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .stat-icon.members { background: rgba(99, 102, 241, 0.15); color: var(--primary); }
+        .stat-icon.events { background: rgba(245, 158, 11, 0.15); color: var(--accent); }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--gray-light);
+        }
+
+        /* Section Title */
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 0 20px;
+            margin-bottom: 15px;
         }
-        .setting-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .setting-info {
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .section-link {
+            font-size: 0.85rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Feature Menu */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 0 20px 25px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--dark-light);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover .feature-icon {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .feature-icon.kopdar { color: #f472b6; }
+        .feature-icon.promo { color: #fbbf24; }
+        .feature-icon.location { color: #34d399; }
+        .feature-icon.chat { color: #60a5fa; }
+        .feature-icon.settings { color: #a78bfa; }
+        .feature-icon.history { color: #fb923c; }
+        .feature-icon.help { color: #2dd4bf; }
+        .feature-icon.share { color: #f87171; }
+
+        .feature-label {
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Promo Slider */
+        .promo-slider {
+            margin: 0 0 25px;
+            padding: 0 20px;
+            overflow-x: auto;
+            display: flex;
+            gap: 15px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .promo-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .promo-card {
+            min-width: 300px;
+            height: 180px;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .promo-card:hover {
+            transform: scale(1.02);
+        }
+
+        .promo-card.promo-1 {
+            background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+        }
+
+        .promo-card.promo-2 {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+        }
+
+        .promo-card.promo-3 {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        }
+
+        .promo-card.promo-4 {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+        }
+
+        .promo-card::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .promo-image {
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+            width: 100px;
+            height: 100px;
+            border-radius: 16px;
+            object-fit: cover;
+            opacity: 0.9;
+        }
+
+        .promo-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .promo-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            max-width: 180px;
+        }
+
+        .promo-desc {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            max-width: 170px;
+        }
+
+        /* Kopdar Section */
+        .kopdar-list {
+            margin: 0 20px 25px;
+        }
+
+        .kopdar-card {
+            background: var(--dark-light);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .kopdar-card:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .kopdar-image {
+            width: 90px;
+            height: 90px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .kopdar-info {
             flex: 1;
         }
-        .setting-title {
+
+        .kopdar-title {
             font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
+            font-size: 1rem;
         }
-        .setting-desc {
+
+        .kopdar-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .kopdar-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--gray-light);
+        }
+
+        .kopdar-meta i {
             font-size: 0.75rem;
-            color: rgba(255,255,255,0.6);
+            color: var(--primary);
         }
+
+        .kopdar-badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .kopdar-badge.soon {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent);
+        }
+
+        .kopdar-badge.open {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        /* Promo List Page */
+        .promo-list {
+            margin: 0 20px;
+        }
+
+        .promo-item {
+            background: var(--dark-light);
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .promo-item-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .promo-item-content {
+            padding: 15px;
+        }
+
+        .promo-item-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .promo-item-desc {
+            font-size: 0.85rem;
+            color: var(--gray-light);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .promo-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .promo-item-date {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .promo-item-btn {
+            background: var(--gradient-primary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--gray);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+        }
+
+        .nav-item span {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* Side Menu Overlay */
+        .side-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .side-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background: var(--dark-light);
+            z-index: 201;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .side-menu.active {
+            left: 0;
+        }
+
+        .menu-header {
+            padding: 30px 20px;
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .menu-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.3);
+            object-fit: cover;
+        }
+
+        .menu-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .menu-title {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .menu-close {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .menu-items {
+            padding: 20px 0;
+        }
+
+        .menu-section {
+            padding: 10px 20px;
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .menu-link:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .menu-link i {
+            width: 20px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .menu-link span {
+            flex: 1;
+        }
+
+        .menu-link .arrow {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        /* Permission Overlay */
+        .permission-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-dark);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .permission-card {
+            background: var(--dark-light);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .permission-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .permission-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+        }
+
+        .permission-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .permission-subtitle {
+            font-size: 0.85rem;
+            color: var(--gray-light);
+        }
+
+        .permission-list {
+            margin-bottom: 20px;
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .permission-item.granted {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .permission-item.denied {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .permission-item-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .permission-item.granted .permission-item-icon {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .permission-item.denied .permission-item-icon {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .permission-item-info {
+            flex: 1;
+        }
+
+        .permission-item-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .permission-item-desc {
+            font-size: 0.75rem;
+            color: var(--gray-light);
+        }
+
+        .permission-item-status {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+        }
+
+        .permission-item-status.granted {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .permission-item-status.denied {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .permission-item-status.pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent);
+        }
+
+        .permission-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .permission-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .permission-btn.secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .permission-btn.secondary:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
         /* Toggle Switch */
         .toggle-switch {
             position: relative;
@@ -335,19 +1031,25 @@
             height: 26px;
             flex-shrink: 0;
         }
+
         .toggle-switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
+
         .toggle-slider {
             position: absolute;
             cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.2);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.1);
             transition: 0.3s;
             border-radius: 26px;
         }
+
         .toggle-slider:before {
             position: absolute;
             content: "";
@@ -359,439 +1061,1000 @@
             transition: 0.3s;
             border-radius: 50%;
         }
+
         .toggle-switch input:checked + .toggle-slider {
-            background: var(--success-color);
+            background: var(--success);
         }
+
         .toggle-switch input:checked + .toggle-slider:before {
             transform: translateX(24px);
         }
+
+        /* Settings Section */
+        .settings-section {
+            margin: 0 20px 25px;
+        }
+
+        .settings-card {
+            background: var(--dark-light);
+            border-radius: var(--radius);
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .setting-item:first-child {
+            padding-top: 5px;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+            padding-bottom: 5px;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .setting-desc {
+            font-size: 0.75rem;
+            color: var(--gray-light);
+        }
+
+        /* Location Card */
+        .location-card {
+            background: var(--dark-light);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 20px;
+        }
+
+        .location-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .location-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .location-title i {
+            color: var(--success);
+        }
+
+        .location-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .location-status.active {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .location-status.inactive {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .location-coords {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .coord-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .coord-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .coord-label {
+            color: var(--gray-light);
+        }
+
+        .coord-value {
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .btn-update-location {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-update-location:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-update-location:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         /* Info Banner */
         .info-banner {
-            background: rgba(245, 158, 11, 0.2);
-            border: 1px solid rgba(245, 158, 11, 0.5);
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
             border-radius: 10px;
             padding: 12px;
             margin-top: 15px;
             font-size: 0.8rem;
-            line-height: 1.4;
-        }
-        .info-banner i {
-            margin-right: 5px;
-            color: #f59e0b;
-        }
-        .info-banner.success {
-            background: rgba(28, 200, 138, 0.2);
-            border-color: rgba(28, 200, 138, 0.5);
-        }
-        .info-banner.success i {
-            color: var(--success-color);
+            line-height: 1.5;
+            color: var(--gray-light);
         }
 
-        /* Permission Page Styles */
-        .permission-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        .info-banner i {
+            color: var(--accent);
+            margin-right: 5px;
         }
-        .permission-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
-            padding: 25px;
-            width: 100%;
-            max-width: 400px;
+
+        .info-banner.success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
         }
-        .permission-header {
-            text-align: center;
-            margin-bottom: 25px;
+
+        .info-banner.success i {
+            color: var(--success);
         }
-        .permission-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        /* Profile Page */
+        .profile-page-card {
+            margin: 20px;
+            background: var(--dark-light);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .profile-cover {
+            height: 150px;
+            background: var(--gradient-primary);
+            position: relative;
+        }
+
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 2rem;
-            color: white;
+            border: 5px solid var(--dark-light);
+            object-fit: cover;
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        .permission-title {
-            font-size: 1.3rem;
+
+        .profile-details {
+            padding: 70px 20px 25px;
+            text-align: center;
+        }
+
+        .profile-details-name {
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
-        .permission-subtitle {
+
+        .profile-details-title {
+            display: inline-block;
+            background: var(--gradient-primary);
+            padding: 6px 20px;
+            border-radius: var(--radius-full);
             font-size: 0.85rem;
-            color: rgba(255,255,255,0.7);
+            font-weight: 600;
+            margin-bottom: 20px;
         }
-        .permission-list {
-            margin-bottom: 25px;
-        }
-        .permission-item {
-            display: flex;
-            align-items: center;
+
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            padding: 15px;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .profile-info-item {
             background: rgba(0,0,0,0.2);
+            padding: 15px;
             border-radius: 12px;
-            margin-bottom: 10px;
         }
-        .permission-item.granted {
-            background: rgba(28, 200, 138, 0.2);
-            border: 1px solid rgba(28, 200, 138, 0.3);
+
+        .profile-info-item label {
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            display: block;
+            margin-bottom: 5px;
         }
-        .permission-item.denied {
-            background: rgba(231, 74, 59, 0.2);
-            border: 1px solid rgba(231, 74, 59, 0.3);
-        }
-        .permission-item-icon {
-            width: 45px;
-            height: 45px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-        .permission-item.granted .permission-item-icon {
-            background: rgba(28, 200, 138, 0.3);
-            color: var(--success-color);
-        }
-        .permission-item.denied .permission-item-icon {
-            background: rgba(231, 74, 59, 0.3);
-            color: var(--danger-color);
-        }
-        .permission-item-info {
-            flex: 1;
-        }
-        .permission-item-title {
+
+        .profile-info-item span {
             font-weight: 600;
             font-size: 0.95rem;
+        }
+
+        /* Notification Toast */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: var(--dark-light);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px 20px;
+            min-width: 280px;
+            max-width: 350px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+            box-shadow: var(--shadow-xl);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.hiding {
+            animation: slideOut 0.3s ease forwards;
+        }
+
+        @keyframes slideOut {
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .toast-icon.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .toast-icon.info {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary);
+        }
+
+        .toast-icon.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            font-size: 0.9rem;
             margin-bottom: 3px;
         }
-        .permission-item-desc {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.6);
-        }
-        .permission-item-status {
+
+        .toast-message {
             font-size: 0.8rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
+            color: var(--gray-light);
         }
-        .permission-item-status.granted {
-            background: rgba(28, 200, 138, 0.3);
-            color: var(--success-color);
-        }
-        .permission-item-status.denied {
-            background: rgba(231, 74, 59, 0.3);
-            color: var(--danger-color);
-        }
-        .permission-item-status.pending {
-            background: rgba(245, 158, 11, 0.3);
-            color: #f59e0b;
-        }
-        .permission-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .toast-close {
+            background: none;
             border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            font-weight: 700;
+            color: var(--gray);
             cursor: pointer;
-            transition: transform 0.2s;
-            margin-bottom: 10px;
+            padding: 5px;
         }
-        .permission-btn:hover {
-            transform: translateY(-2px);
-        }
-        .permission-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .permission-btn-secondary {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        .permission-btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        .permission-continue {
+
+        /* Empty State */
+        .empty-state {
             text-align: center;
-            margin-top: 10px;
+            padding: 40px 20px;
+            color: var(--gray-light);
         }
-        .permission-continue a {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.85rem;
-            text-decoration: none;
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
         }
-        .permission-continue a:hover {
-            color: white;
-            text-decoration: underline;
+
+        .empty-state p {
+            font-size: 0.9rem;
         }
-        .permission-warning {
-            background: rgba(245, 158, 11, 0.2);
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 20px;
-            font-size: 0.8rem;
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-        }
-        .permission-warning i {
-            color: #f59e0b;
-            margin-top: 2px;
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .feature-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+
+            .feature-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .feature-label {
+                font-size: 0.65rem;
+            }
+
+            .profile-card {
+                padding: 20px;
+            }
+
+            .profile-avatar {
+                width: 60px;
+                height: 60px;
+            }
+
+            .profile-name {
+                font-size: 1.2rem;
+            }
+
+            .promo-card {
+                min-width: 260px;
+                height: 160px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Permission Request Overlay -->
-    <div class="permission-overlay" id="permissionOverlay" style="display: none;">
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">
+            <i class="fas fa-truck"></i>
+        </div>
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Memuat BGT-PRO...</p>
+    </div>
+
+    <!-- Permission Overlay -->
+    <div class="permission-overlay" id="permissionOverlay">
         <div class="permission-card">
             <div class="permission-header">
                 <div class="permission-icon">
                     <i class="fas fa-shield-alt"></i>
                 </div>
                 <h2 class="permission-title">Izin Aplikasi</h2>
-                <p class="permission-subtitle">PT. Bali Global Trans membutuhkan izin berikut untuk berfungsi dengan baik</p>
-            </div>
-
-            <div class="permission-warning" id="permissionWarning" style="display: none;">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span id="permissionWarningText"></span>
+                <p class="permission-subtitle">BGT-PRO membutuhkan izin untuk berfungsi optimal</p>
             </div>
 
             <div class="permission-list">
-                <!-- Location Permission -->
                 <div class="permission-item" id="perm-location">
                     <div class="permission-item-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="permission-item-info">
                         <div class="permission-item-title">Lokasi</div>
-                        <div class="permission-item-desc">Untuk menampilkan posisi Anda di peta</div>
+                        <div class="permission-item-desc">Untuk menampilkan posisi Anda</div>
                     </div>
                     <span class="permission-item-status pending" id="status-location">Menunggu</span>
                 </div>
 
-                <!-- Background Location -->
-                <div class="permission-item" id="perm-background">
-                    <div class="permission-item-icon">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <div class="permission-item-info">
-                        <div class="permission-item-title">Lokasi Background</div>
-                        <div class="permission-item-desc">Update lokasi saat aplikasi di background</div>
-                    </div>
-                    <span class="permission-item-status pending" id="status-background">Menunggu</span>
-                </div>
-
-                <!-- Notification -->
                 <div class="permission-item" id="perm-notification">
                     <div class="permission-item-icon">
                         <i class="fas fa-bell"></i>
                     </div>
                     <div class="permission-item-info">
                         <div class="permission-item-title">Notifikasi</div>
-                        <div class="permission-item-desc">Informasi update lokasi & pesan</div>
+                        <div class="permission-item-desc">Info update & pesan</div>
                     </div>
                     <span class="permission-item-status pending" id="status-notification">Menunggu</span>
-                </div>
-
-                <!-- Camera -->
-                <div class="permission-item" id="perm-camera">
-                    <div class="permission-item-icon">
-                        <i class="fas fa-camera"></i>
-                    </div>
-                    <div class="permission-item-info">
-                        <div class="permission-item-title">Kamera</div>
-                        <div class="permission-item-desc">Untuk foto profil anggota</div>
-                    </div>
-                    <span class="permission-item-status pending" id="status-camera">Menunggu</span>
-                </div>
-
-                <!-- Storage -->
-                <div class="permission-item" id="perm-storage">
-                    <div class="permission-item-icon">
-                        <i class="fas fa-folder"></i>
-                    </div>
-                    <div class="permission-item-info">
-                        <div class="permission-item-title">Penyimpanan</div>
-                        <div class="permission-item-desc">Menyimpan foto dan data lokal</div>
-                    </div>
-                    <span class="permission-item-status pending" id="status-storage">Menunggu</span>
                 </div>
             </div>
 
             <button class="permission-btn" id="btnRequestPermissions" onclick="requestAllPermissions()">
                 <i class="fas fa-check-circle"></i> Izinkan Semua
             </button>
-            <button class="permission-btn permission-btn-secondary" onclick="skipPermissions()">
+            <button class="permission-btn secondary" onclick="skipPermissions()">
                 Lewati untuk Sekarang
             </button>
-            
-            <div class="permission-continue">
-                <a href="#" onclick="openAppSettings()">Buka Pengaturan Manual</a>
-            </div>
         </div>
     </div>
 
-    <!-- Loading State -->
-    <div id="loading-view" class="loading-container">
-        <div class="spinner"></div>
-        <p class="loading-text">Memuat data...</p>
+    <!-- Side Menu Overlay -->
+    <div class="side-menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <button class="menu-close" onclick="closeMenu()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="menu-profile">
+                <img src="" alt="Avatar" class="menu-avatar" id="menuAvatar">
+                <div>
+                    <div class="menu-name" id="menuName">Loading...</div>
+                    <div class="menu-title" id="menuTitle">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-items">
+            <div class="menu-section">Menu Utama</div>
+            <a class="menu-link" onclick="navigateTo('home'); closeMenu();">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <a class="menu-link" onclick="navigateTo('profile'); closeMenu();">
+                <i class="fas fa-user"></i>
+                <span>Profil Saya</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <a class="menu-link" onclick="navigateTo('kopdar'); closeMenu();">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Jadwal Kopdar</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <a class="menu-link" onclick="navigateTo('promo'); closeMenu();">
+                <i class="fas fa-tags"></i>
+                <span>Promo & Diskon</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+
+            <div class="menu-section">Lainnya</div>
+            <a class="menu-link" onclick="navigateTo('settings'); closeMenu();">
+                <i class="fas fa-cog"></i>
+                <span>Pengaturan</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <a class="menu-link" onclick="navigateTo('help'); closeMenu();">
+                <i class="fas fa-question-circle"></i>
+                <span>Bantuan</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <a class="menu-link" onclick="handleLogout()" style="color: var(--danger);">
+                <i class="fas fa-sign-out-alt" style="color: var(--danger);"></i>
+                <span>Keluar</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+        </div>
     </div>
 
-    <!-- Main Content -->
-    <div id="main-content" style="display: none;">
-        <!-- Header -->
-        <div class="header">
+    <!-- ==================== HOME PAGE ==================== -->
+    <div class="page active" id="page-home">
+        <header class="header">
             <div class="header-left">
-                <h1><i class="fas fa-truck"></i> PT. Bali Global Trans</h1>
-                <p>Portal Anggota</p>
+                <button class="menu-btn" onclick="openMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-title">BGT-PRO</div>
             </div>
-            <button class="btn-logout" onclick="handleLogout()">
-                <i class="fas fa-sign-out-alt"></i> Keluar
-            </button>
-        </div>
+            <div class="header-right">
+                <button class="notif-btn" onclick="navigateTo('notifications')">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge hidden" id="notifBadge">0</span>
+                </button>
+            </div>
+        </header>
 
-        <!-- User Card -->
-        <div class="user-card">
-            <img id="user-avatar" src="" alt="Avatar" class="user-avatar">
-            <h2 class="user-name" id="user-nama">-</h2>
-            <span class="user-titel" id="user-titel">-</span>
-            
-            <div class="user-info">
-                <div class="info-item">
-                    <label><i class="fas fa-envelope"></i> Email</label>
-                    <span id="user-email">-</span>
+        <!-- Profile Card -->
+        <div class="profile-card" onclick="navigateTo('profile')">
+            <div class="profile-content">
+                <img src="" alt="Avatar" class="profile-avatar" id="userAvatar">
+                <div class="profile-info">
+                    <h2 class="profile-name" id="userName">Loading...</h2>
+                    <div class="profile-title">
+                        <i class="fas fa-crown"></i>
+                        <span id="userTitle">-</span>
+                    </div>
+                    <div class="profile-status">
+                        <span class="status-dot"></span>
+                        <span id="userStatus">ONLINE</span>
+                    </div>
                 </div>
-                <div class="info-item">
-                    <label><i class="fas fa-phone"></i> Telepon</label>
-                    <span id="user-telepon">-</span>
+                <div class="profile-qr">
+                    <i class="fas fa-qrcode"></i>
                 </div>
-                <div class="info-item">
-                    <label><i class="fas fa-car"></i> Plat Mobil</label>
-                    <span id="user-plat">-</span>
-                </div>
-                <div class="info-item">
-                    <label><i class="fas fa-calendar"></i> Bergabung</label>
-                    <span id="user-bergabung">-</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Status Card -->
-        <div class="status-card">
-            <div class="status-header">
-                <h3><i class="fas fa-signal"></i> Status Koneksi</h3>
-                <div class="status-online">
-                    <i class="fas fa-circle"></i>
-                    <span id="user-status">ONLINE</span>
-                </div>
-            </div>
-            <div class="info-box">
-                <i class="fas fa-shield-alt"></i>
-                <p>Akun ini hanya bisa login di <strong>1 perangkat</strong>. Jika Anda login di perangkat lain, sesi ini akan otomatis berakhir.</p>
             </div>
         </div>
 
-        <!-- Location Card -->
-        <div class="location-card">
-            <div class="location-header">
-                <h3><i class="fas fa-map-marker-alt"></i> Lokasi Anda</h3>
-                <div class="location-status inactive" id="location-status">
-                    <i class="fas fa-circle"></i>
-                    <span id="location-status-text">Tidak Aktif</span>
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card" onclick="navigateTo('settings')">
+                <div class="stat-icon location">
+                    <i class="fas fa-map-marker-alt"></i>
                 </div>
+                <div class="stat-value" id="statLocation">-</div>
+                <div class="stat-label">Lokasi</div>
             </div>
-            <div class="location-coords" id="location-coords">
-                <p>Latitude <span id="lat-value">-</span></p>
-                <p>Longitude <span id="lng-value">-</span></p>
-                <p>Update Terakhir <span id="location-time">-</span></p>
+            <div class="stat-card" onclick="navigateTo('members')">
+                <div class="stat-icon members">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-value" id="statMembers">0</div>
+                <div class="stat-label">Anggota</div>
             </div>
-            <button class="btn-location" id="btn-update-location" onclick="updateLocation()">
-                <i class="fas fa-location-arrow"></i>
-                <span id="btn-location-text">Update Lokasi Sekarang</span>
-            </button>
-            <p class="location-info">Lokasi digunakan untuk ditampilkan di peta admin. Klik tombol di atas untuk mengupdate lokasi Anda.</p>
+            <div class="stat-card" onclick="navigateTo('kopdar')">
+                <div class="stat-icon events">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-value" id="statEvents">0</div>
+                <div class="stat-label">Event</div>
+            </div>
         </div>
 
-        <!-- Settings Card -->
-        <div class="settings-card">
-            <div class="settings-header">
-                <h3><i class="fas fa-cog"></i> Pengaturan Aplikasi</h3>
-            </div>
-            
-            <div class="setting-item">
-                <div class="setting-info">
-                    <div class="setting-title">Berjalan di Belakang Layar</div>
-                    <div class="setting-desc">Izinkan aplikasi mengupdate lokasi saat di background</div>
+        <!-- Feature Menu -->
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-th-large"></i>
+                Menu Cepat
+            </h3>
+        </div>
+        <div class="feature-grid">
+            <div class="feature-item" onclick="navigateTo('kopdar')">
+                <div class="feature-icon kopdar">
+                    <i class="fas fa-mug-hot"></i>
                 </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="toggleBackgroundLocation" onchange="toggleBackgroundLocation(this.checked)">
-                    <span class="toggle-slider"></span>
-                </label>
+                <span class="feature-label">Kopdar</span>
             </div>
-            
-            <div class="setting-item">
-                <div class="setting-info">
-                    <div class="setting-title">Lokasi Akurat Tinggi</div>
-                    <div class="setting-desc">Gunakan GPS untuk akurasi lebih tinggi (boros baterai)</div>
+            <div class="feature-item" onclick="navigateTo('promo')">
+                <div class="feature-icon promo">
+                    <i class="fas fa-percent"></i>
                 </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="toggleHighAccuracy" onchange="toggleHighAccuracy(this.checked)">
-                    <span class="toggle-slider"></span>
-                </label>
+                <span class="feature-label">Promo</span>
             </div>
-            
-            <div class="setting-item">
-                <div class="setting-info">
-                    <div class="setting-title">Notifikasi Lokasi</div>
-                    <div class="setting-desc">Tampilkan notifikasi saat lokasi diupdate</div>
+            <div class="feature-item" onclick="navigateTo('settings')">
+                <div class="feature-icon location">
+                    <i class="fas fa-map-marked-alt"></i>
                 </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="toggleNotif" onchange="toggleNotification(this.checked)">
-                    <span class="toggle-slider"></span>
-                </label>
+                <span class="feature-label">Lokasi</span>
             </div>
-            
-            <div class="info-banner" id="settingsInfoBanner">
-                <i class="fas fa-info-circle"></i>
-                <strong>Cara enable background location:</strong><br>
-                • Android: Settings → Apps → Browser → Permissions → Location → "Allow all the time"<br>
-                • iOS: Settings → Browser → Location → "Always"
+            <div class="feature-item" onclick="navigateTo('chat')">
+                <div class="feature-icon chat">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <span class="feature-label">Chat</span>
             </div>
-
-            <button class="btn-location" style="margin-top: 15px;" onclick="showPermissionOverlay()">
-                <i class="fas fa-shield-alt"></i> Kelola Izin Aplikasi
-            </button>
+            <div class="feature-item" onclick="navigateTo('history')">
+                <div class="feature-icon history">
+                    <i class="fas fa-history"></i>
+                </div>
+                <span class="feature-label">Riwayat</span>
+            </div>
+            <div class="feature-item" onclick="navigateTo('settings')">
+                <div class="feature-icon settings">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span class="feature-label">Pengaturan</span>
+            </div>
+            <div class="feature-item" onclick="navigateTo('help')">
+                <div class="feature-icon help">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <span class="feature-label">Bantuan</span>
+            </div>
+            <div class="feature-item" onclick="shareApp()">
+                <div class="feature-icon share">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <span class="feature-label">Bagikan</span>
+            </div>
         </div>
 
-        <!-- Footer -->
-        <div class="footer">
-            <p>PT. Bali Global Trans &trade;</p>
-            <p>&copy; 2024 Design by BGT Team &reg;</p>
+        <!-- Promo Slider -->
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-fire"></i>
+                Promo Spesial
+            </h3>
+            <span class="section-link" onclick="navigateTo('promo')">Lihat Semua</span>
+        </div>
+        <div class="promo-slider" id="promoSliderHome">
+            <!-- Promo cards will be loaded here -->
+        </div>
+
+        <!-- Kopdar Section -->
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-calendar-alt"></i>
+                Kopdar Mendatang
+            </h3>
+            <span class="section-link" onclick="navigateTo('kopdar')">Lihat Semua</span>
+        </div>
+        <div class="kopdar-list" id="kopdarListHome">
+            <!-- Kopdar cards will be loaded here -->
         </div>
     </div>
+
+    <!-- ==================== PROFILE PAGE ==================== -->
+    <div class="page" id="page-profile">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">Profil Saya</div>
+            </div>
+            <div class="header-right">
+                <button class="notif-btn" onclick="navigateTo('settings')">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="profile-page-card">
+            <div class="profile-cover">
+                <img src="" alt="Avatar" class="profile-avatar-large" id="profileAvatarLarge">
+            </div>
+            <div class="profile-details">
+                <h2 class="profile-details-name" id="profileName">-</h2>
+                <span class="profile-details-title" id="profileTitle">-</span>
+                
+                <div class="profile-info-grid">
+                    <div class="profile-info-item">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <span id="profileEmail">-</span>
+                    </div>
+                    <div class="profile-info-item">
+                        <label><i class="fas fa-phone"></i> Telepon</label>
+                        <span id="profilePhone">-</span>
+                    </div>
+                    <div class="profile-info-item">
+                        <label><i class="fas fa-car"></i> Plat Mobil</label>
+                        <span id="profilePlat">-</span>
+                    </div>
+                    <div class="profile-info-item">
+                        <label><i class="fas fa-calendar"></i> Bergabung</label>
+                        <span id="profileJoined">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== KOPDAR PAGE ==================== -->
+    <div class="page" id="page-kopdar">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">Jadwal Kopdar</div>
+            </div>
+        </header>
+
+        <div class="kopdar-list" id="kopdarListFull" style="margin-top: 20px;">
+            <!-- Kopdar cards will be loaded here -->
+        </div>
+    </div>
+
+    <!-- ==================== PROMO PAGE ==================== -->
+    <div class="page" id="page-promo">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">Promo & Diskon</div>
+            </div>
+        </header>
+
+        <div class="promo-list" id="promoListFull" style="margin-top: 20px;">
+            <!-- Promo items will be loaded here -->
+        </div>
+    </div>
+
+    <!-- ==================== SETTINGS PAGE ==================== -->
+    <div class="page" id="page-settings">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">Pengaturan</div>
+            </div>
+        </header>
+
+        <!-- Location Section -->
+        <div class="section-header" style="margin-top: 20px;">
+            <h3 class="section-title">
+                <i class="fas fa-location-arrow"></i>
+                Lokasi
+            </h3>
+        </div>
+        <div class="settings-section">
+            <div class="location-card">
+                <div class="location-header">
+                    <div class="location-title">
+                        <i class="fas fa-satellite-dish"></i>
+                        <span>Status GPS</span>
+                    </div>
+                    <div class="location-status inactive" id="locationStatus">
+                        <i class="fas fa-circle"></i>
+                        <span id="locationStatusText">Tidak Aktif</span>
+                    </div>
+                </div>
+                <div class="location-coords">
+                    <div class="coord-row">
+                        <span class="coord-label">Latitude</span>
+                        <span class="coord-value" id="latValue">-</span>
+                    </div>
+                    <div class="coord-row">
+                        <span class="coord-label">Longitude</span>
+                        <span class="coord-value" id="lngValue">-</span>
+                    </div>
+                    <div class="coord-row">
+                        <span class="coord-label">Update Terakhir</span>
+                        <span class="coord-value" id="locationTime">-</span>
+                    </div>
+                </div>
+                <button class="btn-update-location" id="btnUpdateLocation" onclick="updateLocation()">
+                    <i class="fas fa-sync-alt"></i>
+                    <span id="btnLocationText">Update Lokasi</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- App Settings -->
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-sliders-h"></i>
+                Pengaturan Aplikasi
+            </h3>
+        </div>
+        <div class="settings-section">
+            <div class="settings-card">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Background Location</div>
+                        <div class="setting-desc">Update lokasi saat aplikasi di background</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleBackgroundLocation" onchange="toggleBackgroundLocation(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">High Accuracy GPS</div>
+                        <div class="setting-desc">Gunakan GPS presisi tinggi (boros baterai)</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleHighAccuracy" onchange="toggleHighAccuracy(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Notifikasi dengan Suara</div>
+                        <div class="setting-desc">Bunyikan suara saat ada notifikasi baru</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleNotif" onchange="toggleNotification(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="info-banner" id="settingsInfoBanner">
+                    <i class="fas fa-info-circle"></i>
+                    Aktifkan notifikasi untuk mendapat info terbaru dari admin
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Info -->
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-user-cog"></i>
+                Akun
+            </h3>
+        </div>
+        <div class="settings-section">
+            <div class="settings-card">
+                <div class="setting-item" onclick="showPermissionOverlay()" style="cursor: pointer;">
+                    <div class="setting-info">
+                        <div class="setting-title">Kelola Izin Aplikasi</div>
+                        <div class="setting-desc">Atur izin lokasi, notifikasi, dll</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color: var(--gray);"></i>
+                </div>
+                <div class="setting-item" onclick="handleLogout()" style="cursor: pointer;">
+                    <div class="setting-info">
+                        <div class="setting-title" style="color: var(--danger);">Keluar dari Akun</div>
+                        <div class="setting-desc">Logout dari aplikasi BGT-PRO</div>
+                    </div>
+                    <i class="fas fa-sign-out-alt" style="color: var(--danger);"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== NOTIFICATIONS PAGE ==================== -->
+    <div class="page" id="page-notifications">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">Notifikasi</div>
+            </div>
+        </header>
+
+        <div id="notificationList" style="margin: 20px;">
+            <!-- Notifications will be loaded here -->
+        </div>
+    </div>
+
+    <!-- ==================== HELP PAGE ==================== -->
+    <div class="page" id="page-help">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">Bantuan</div>
+            </div>
+        </header>
+
+        <div class="settings-section" style="margin-top: 20px;">
+            <div class="settings-card">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-question-circle" style="color: var(--primary); margin-right: 8px;"></i> FAQ</div>
+                        <div class="setting-desc">Pertanyaan yang sering ditanyakan</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color: var(--gray);"></i>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-phone" style="color: var(--success); margin-right: 8px;"></i> Hubungi Admin</div>
+                        <div class="setting-desc">WhatsApp: +62 812-3456-7890</div>
+                    </div>
+                    <i class="fas fa-external-link-alt" style="color: var(--gray);"></i>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title"><i class="fas fa-info-circle" style="color: var(--info); margin-right: 8px;"></i> Tentang Aplikasi</div>
+                        <div class="setting-desc">BGT-PRO v1.0.0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== OTHER PAGES ==================== -->
+    <div class="page" id="page-members">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">Daftar Anggota</div>
+            </div>
+        </header>
+        <div class="empty-state" style="margin-top: 50px;">
+            <i class="fas fa-users"></i>
+            <p>Fitur daftar anggota akan segera hadir</p>
+        </div>
+    </div>
+
+    <div class="page" id="page-chat">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">Chat</div>
+            </div>
+        </header>
+        <div class="empty-state" style="margin-top: 50px;">
+            <i class="fas fa-comments"></i>
+            <p>Fitur chat akan segera hadir</p>
+        </div>
+    </div>
+
+    <div class="page" id="page-history">
+        <header class="header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-title">Riwayat</div>
+            </div>
+        </header>
+        <div class="empty-state" style="margin-top: 50px;">
+            <i class="fas fa-history"></i>
+            <p>Fitur riwayat akan segera hadir</p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-page="home" onclick="navigateTo('home')">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </div>
+        <div class="nav-item" data-page="kopdar" onclick="navigateTo('kopdar')">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Kopdar</span>
+        </div>
+        <div class="nav-item" data-page="promo" onclick="navigateTo('promo')">
+            <i class="fas fa-tags"></i>
+            <span>Promo</span>
+        </div>
+        <div class="nav-item" data-page="profile" onclick="navigateTo('profile')">
+            <i class="fas fa-user"></i>
+            <span>Profil</span>
+        </div>
+    </nav>
+
+    <!-- Audio for notification sound -->
+    <audio id="notifSound" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" type="audio/mpeg">
+    </audio>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -816,68 +2079,212 @@
         const db = firebase.firestore();
 
         let userSessionUnsubscribe = null;
-        let watchPositionId = null; // For continuous location tracking
+        let watchPositionId = null;
+        let lastActiveInterval = null;
+        let notificationsUnsubscribe = null;
 
-        // App Settings (with defaults)
+        // App Settings
         let appSettings = {
             backgroundLocation: false,
             highAccuracy: true,
             notification: false
         };
 
-        // Safe localStorage functions
-        function safeGetItem(key) {
-            try {
-                return localStorage.getItem(key);
-            } catch (e) {
-                return null;
+        // Permission Status
+        let permissionStatus = {
+            location: 'pending',
+            notification: 'pending'
+        };
+
+        // Sample Data (will be loaded from Firebase)
+        let promoData = [
+            {
+                id: 1,
+                title: 'Kopdar Bulanan Januari',
+                desc: 'Diskon 20% untuk semua anggota BGT-PRO yang hadir di kopdar bulan ini!',
+                badge: 'HOT',
+                image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400',
+                gradient: 'promo-1',
+                date: '25 Jan 2025'
+            },
+            {
+                id: 2,
+                title: 'Member Premium',
+                desc: 'Upgrade ke member premium dan nikmati fitur eksklusif!',
+                badge: 'NEW',
+                image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',
+                gradient: 'promo-2',
+                date: '01 Feb 2025'
+            },
+            {
+                id: 3,
+                title: 'Tour Bareng',
+                desc: 'Jalan-jalan bersama komunitas ke destinasi wisata terbaik!',
+                badge: 'EVENT',
+                image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400',
+                gradient: 'promo-3',
+                date: '15 Feb 2025'
+            },
+            {
+                id: 4,
+                title: 'Cashback 10%',
+                desc: 'Dapatkan cashback 10% untuk setiap transaksi dengan mitra BGT!',
+                badge: 'PROMO',
+                image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400',
+                gradient: 'promo-4',
+                date: '28 Feb 2025'
             }
+        ];
+
+        let kopdarData = [
+            {
+                id: 1,
+                title: 'Kopdar Bulanan Januari',
+                date: '25 Jan 2025',
+                time: '18:00 - 21:00',
+                location: 'Warung Mak Beng, Sanur',
+                image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400',
+                status: 'soon',
+                attendees: 45
+            },
+            {
+                id: 2,
+                title: 'Makan Malam Bersama',
+                date: '01 Feb 2025',
+                time: '19:00 - 22:00',
+                location: 'Jimbaran Beach Cafe',
+                image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400',
+                status: 'open',
+                attendees: 32
+            },
+            {
+                id: 3,
+                title: 'Tour ke Kintamani',
+                date: '15 Feb 2025',
+                time: '06:00 - 18:00',
+                location: 'Kintamani, Bangli',
+                image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400',
+                status: 'open',
+                attendees: 28
+            }
+        ];
+
+        // Safe localStorage
+        function safeGetItem(key) {
+            try { return localStorage.getItem(key); } catch (e) { return null; }
         }
 
         function safeSetItem(key, value) {
-            try {
-                localStorage.setItem(key, value);
-                return true;
-            } catch (e) {
-                console.log('Cannot save to localStorage');
-                return false;
-            }
+            try { localStorage.setItem(key, value); return true; } catch (e) { return false; }
         }
 
         function safeRemoveItem(key) {
-            try {
-                localStorage.removeItem(key);
-            } catch (e) {
-                console.log('Cannot remove from localStorage');
+            try { localStorage.removeItem(key); } catch (e) {}
+        }
+
+        // Navigation
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === page) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Menu Functions
+        function openMenu() {
+            document.getElementById('sideMenu').classList.add('active');
+            document.getElementById('menuOverlay').classList.add('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('sideMenu').classList.remove('active');
+            document.getElementById('menuOverlay').classList.remove('active');
+        }
+
+        // Share App
+        function shareApp() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'BGT-PRO',
+                    text: 'Gabung komunitas PT. Bali Global Trans!',
+                    url: window.location.href
+                });
+            } else {
+                showToast('info', 'Bagikan', 'Link berhasil disalin!');
             }
         }
 
-        // Load Settings from localStorage
+        // Toast Notification
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            
+            let iconClass = type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'info';
+            let iconName = type === 'success' ? 'fa-check' : type === 'warning' ? 'fa-exclamation' : 'fa-info';
+            
+            toast.innerHTML = `
+                <div class="toast-icon ${iconClass}">
+                    <i class="fas ${iconName}"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Play sound if notification is enabled
+            if (appSettings.notification) {
+                playNotificationSound();
+            }
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        // Play notification sound
+        function playNotificationSound() {
+            const audio = document.getElementById('notifSound');
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(e => console.log('Audio play failed:', e));
+            }
+        }
+
+        // Load Settings
         function loadSettings() {
             try {
                 const saved = localStorage.getItem('appSettings');
                 if (saved) {
                     appSettings = JSON.parse(saved);
                 }
-            } catch (e) {
-                console.log('Error loading settings');
-            }
+            } catch (e) {}
 
-            // Sync notification permission with actual browser permission
             if ('Notification' in window && Notification.permission === 'granted') {
                 appSettings.notification = true;
             }
 
-            // Apply to UI
             document.getElementById('toggleBackgroundLocation').checked = appSettings.backgroundLocation;
             document.getElementById('toggleHighAccuracy').checked = appSettings.highAccuracy;
             document.getElementById('toggleNotif').checked = appSettings.notification;
 
-            updateSettingsBanner();
             updateNotificationStatus();
+            updateSettingsBanner();
         }
 
-        // Update notification status indicator
         function updateNotificationStatus() {
             const toggleNotif = document.getElementById('toggleNotif');
             if ('Notification' in window) {
@@ -887,132 +2294,241 @@
                 } else if (Notification.permission === 'denied') {
                     toggleNotif.checked = false;
                     appSettings.notification = false;
-                    // Disable the toggle if permission is denied
-                    toggleNotif.disabled = true;
-                    toggleNotif.parentElement.title = 'Notifikasi diblokir. Buka pengaturan browser untuk mengizinkan.';
                 }
             }
         }
 
-        // Save Settings to localStorage
         function saveSettings() {
             safeSetItem('appSettings', JSON.stringify(appSettings));
             updateSettingsBanner();
         }
 
-        // Update Info Banner
         function updateSettingsBanner() {
             const banner = document.getElementById('settingsInfoBanner');
-            if (appSettings.backgroundLocation) {
+            if (appSettings.notification) {
                 banner.className = 'info-banner success';
-                banner.innerHTML = '<i class="fas fa-check-circle"></i> <strong>Background Location AKTIF</strong><br>Lokasi akan terus diupdate meskipun aplikasi di background. Pastikan izin lokasi di browser diatur ke "Always" atau "Allow all the time".';
+                banner.innerHTML = '<i class="fas fa-check-circle"></i> Notifikasi AKTIF - Anda akan menerima info terbaru dari admin';
             } else {
                 banner.className = 'info-banner';
-                banner.innerHTML = '<i class="fas fa-info-circle"></i> <strong>Cara enable background location:</strong><br>• Android: Settings → Apps → Browser → Permissions → Location → "Allow all the time"<br>• iOS: Settings → Browser → Location → "Always"';
+                banner.innerHTML = '<i class="fas fa-info-circle"></i> Aktifkan notifikasi untuk mendapat info terbaru dari admin';
             }
         }
 
-        // Toggle: Background Location
+        // Toggle Functions
         function toggleBackgroundLocation(enabled) {
             appSettings.backgroundLocation = enabled;
             saveSettings();
-
-            if (enabled) {
-                // Request permission for background location
-                requestBackgroundPermission();
-            }
-
-            // Restart tracking with new settings
             stopLocationTracking();
             startLocationTracking();
+            showToast('success', 'Background Location', enabled ? 'Diaktifkan' : 'Dinonaktifkan');
         }
 
-        // Toggle: High Accuracy
         function toggleHighAccuracy(enabled) {
             appSettings.highAccuracy = enabled;
             saveSettings();
-
-            // Restart tracking with new settings
             stopLocationTracking();
             startLocationTracking();
+            showToast('success', 'High Accuracy GPS', enabled ? 'Diaktifkan' : 'Dinonaktifkan');
         }
 
-        // Toggle: Notification
         async function toggleNotification(enabled) {
             if (enabled && 'Notification' in window) {
-                // Check current permission status first
                 if (Notification.permission === 'denied') {
-                    // Permission was denied, can't request again programmatically
-                    alert('Notifikasi diblokir oleh browser. Buka pengaturan browser untuk mengizinkan notifikasi.');
+                    showToast('warning', 'Notifikasi Diblokir', 'Buka pengaturan browser untuk mengizinkan');
                     document.getElementById('toggleNotif').checked = false;
                     return;
                 }
-                
                 if (Notification.permission !== 'granted') {
-                    // Request permission
                     const result = await Notification.requestPermission();
                     if (result !== 'granted') {
-                        // User denied or dismissed
                         document.getElementById('toggleNotif').checked = false;
+                        showToast('warning', 'Izin Ditolak', 'Notifikasi tidak diizinkan');
                         return;
                     }
                 }
             }
-            
             appSettings.notification = enabled;
             saveSettings();
+            showToast('success', 'Notifikasi', enabled ? 'Diaktifkan dengan suara' : 'Dinonaktifkan');
+            if (enabled) {
+                playNotificationSound();
+            }
         }
 
-        // Request Background Permission
-        async function requestBackgroundPermission() {
-            // For browsers that support background permission
-            if ('permissions' in navigator) {
-                try {
-                    const status = await navigator.permissions.query({ name: 'geolocation' });
-                    console.log('Geolocation permission:', status.state);
+        // Location Functions
+        function startLocationTracking() {
+            if (!navigator.geolocation) return;
 
-                    if (status.state === 'granted') {
-                        // Show message to user
-                        const banner = document.getElementById('settingsInfoBanner');
-                        banner.innerHTML = '<i class="fas fa-check-circle" style="color: var(--success-color);"></i> Izin lokasi sudah diberikan. Untuk background location, pastikan di Settings HP: "Allow all the time"';
+            if (watchPositionId) {
+                navigator.geolocation.clearWatch(watchPositionId);
+            }
+
+            let lastLat = 0, lastLng = 0;
+
+            watchPositionId = navigator.geolocation.watchPosition(
+                async (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const user = auth.currentUser;
+
+                    if (!user) return;
+
+                    const distance = Math.sqrt(
+                        Math.pow((lat - lastLat) * 111000, 2) +
+                        Math.pow((lng - lastLng) * 111000, 2)
+                    );
+
+                    if (distance >= 10 || (lastLat === 0 && lastLng === 0)) {
+                        lastLat = lat;
+                        lastLng = lng;
+
+                        try {
+                            await db.collection('users').doc(user.uid).update({
+                                latitude: lat,
+                                longitude: lng,
+                                locationUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+
+                            updateLocationUI(lat, lng);
+
+                        } catch (error) {
+                            console.error('Error updating location:', error);
+                        }
                     }
-                } catch (e) {
-                    console.log('Permission API not fully supported');
+                },
+                (error) => console.log('Watch error:', error.message),
+                {
+                    enableHighAccuracy: appSettings.highAccuracy,
+                    timeout: 30000,
+                    maximumAge: 10000
                 }
+            );
+        }
+
+        function updateLocationUI(lat, lng) {
+            document.getElementById('latValue').textContent = lat.toFixed(6);
+            document.getElementById('lngValue').textContent = lng.toFixed(6);
+            document.getElementById('locationTime').textContent = new Date().toLocaleTimeString('id-ID');
+
+            const statusEl = document.getElementById('locationStatus');
+            statusEl.classList.remove('inactive');
+            statusEl.classList.add('active');
+            document.getElementById('locationStatusText').textContent = 'Aktif';
+
+            document.getElementById('statLocation').textContent = 'Aktif';
+        }
+
+        function stopLocationTracking() {
+            if (watchPositionId) {
+                navigator.geolocation.clearWatch(watchPositionId);
+                watchPositionId = null;
             }
         }
 
-        // Show Notification
-        function showLocationNotification(lat, lng) {
-            if (!appSettings.notification || !('Notification' in window)) return;
-            
-            if (Notification.permission === 'granted') {
-                new Notification('Lokasi Diperbarui', {
-                    body: `Koordinat: ${lat.toFixed(6)}, ${lng.toFixed(6)}`,
-                    icon: 'https://ui-avatars.com/api/?name=BGT&background=4e73df&color=fff'
+        async function updateLocation() {
+            const btn = document.getElementById('btnUpdateLocation');
+            const btnText = document.getElementById('btnLocationText');
+
+            btn.disabled = true;
+            btnText.textContent = 'Mendapatkan lokasi...';
+
+            if (!navigator.geolocation) {
+                showToast('warning', 'Error', 'Browser tidak mendukung geolokasi');
+                btn.disabled = false;
+                btnText.textContent = 'Update Lokasi';
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const user = auth.currentUser;
+
+                    if (!user) return;
+
+                    try {
+                        await db.collection('users').doc(user.uid).update({
+                            latitude: lat,
+                            longitude: lng,
+                            locationUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+
+                        updateLocationUI(lat, lng);
+
+                        showToast('success', 'Lokasi Update', 'Koordinat berhasil diperbarui');
+
+                        btnText.textContent = 'Berhasil!';
+                        setTimeout(() => {
+                            btnText.textContent = 'Update Lokasi';
+                            btn.disabled = false;
+                        }, 2000);
+                    } catch (error) {
+                        showToast('warning', 'Error', 'Gagal mengupdate lokasi');
+                        btn.disabled = false;
+                        btnText.textContent = 'Update Lokasi';
+                    }
+                },
+                (error) => {
+                    let msg = 'Gagal mendapatkan lokasi';
+                    if (error.code === error.PERMISSION_DENIED) msg = 'Izin lokasi ditolak';
+                    showToast('warning', 'Error', msg);
+                    btn.disabled = false;
+                    btnText.textContent = 'Update Lokasi';
+                },
+                { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
+            );
+        }
+
+        // Session Monitor
+        function startSessionMonitor(user) {
+            if (!user) return;
+
+            const userRef = db.collection('users').doc(user.uid);
+            const localSessionId = safeGetItem('userSessionId');
+
+            userSessionUnsubscribe = userRef.onSnapshot((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    if (data.currentSessionId && localSessionId && data.currentSessionId !== localSessionId) {
+                        if (userSessionUnsubscribe) userSessionUnsubscribe();
+                        safeRemoveItem('userSessionId');
+                        showToast('warning', 'Login Ganda', 'Akun login di perangkat lain');
+                        auth.signOut();
+                        window.location.href = 'index.html';
+                    }
+                }
+            });
+
+            updateLastActive();
+            lastActiveInterval = setInterval(updateLastActive, 30000);
+        }
+
+        async function updateLastActive() {
+            const user = auth.currentUser;
+            if (!user) return;
+            try {
+                await db.collection('users').doc(user.uid).update({
+                    lastActive: firebase.firestore.FieldValue.serverTimestamp()
                 });
+            } catch (error) {
+                console.error('Error updating lastActive:', error);
             }
         }
 
-        // =============================================
-        // PERMISSION MANAGEMENT
-        // =============================================
+        // Visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                updateLastActive();
+            }
+        });
 
-        let permissionStatus = {
-            location: 'pending',
-            background: 'pending',
-            notification: 'pending',
-            camera: 'pending',
-            storage: 'pending'
-        };
-
-        // Check and show permission overlay
+        // Permission Functions
         function checkPermissions() {
-            const permissionsAsked = safeGetItem('permissionsAsked');
-            if (!permissionsAsked) {
-                showPermissionOverlay();
+            const asked = safeGetItem('permissionsAsked');
+            if (!asked) {
+                document.getElementById('permissionOverlay').style.display = 'flex';
             } else {
-                // Load saved permission status
                 const saved = safeGetItem('permissionStatus');
                 if (saved) {
                     try {
@@ -1022,42 +2538,31 @@
             }
         }
 
-        // Show permission overlay
         function showPermissionOverlay() {
             document.getElementById('permissionOverlay').style.display = 'flex';
             updatePermissionUI();
         }
 
-        // Hide permission overlay
         function hidePermissionOverlay() {
             document.getElementById('permissionOverlay').style.display = 'none';
             safeSetItem('permissionsAsked', 'true');
             safeSetItem('permissionStatus', JSON.stringify(permissionStatus));
         }
 
-        // Update permission UI status
         function updatePermissionUI() {
-            // Location
-            updatePermItem('location', permissionStatus.location);
-            // Background
-            updatePermItem('background', permissionStatus.background);
-            // Notification
-            updatePermItem('notification', permissionStatus.notification);
-            // Camera
-            updatePermItem('camera', permissionStatus.camera);
-            // Storage
-            updatePermItem('storage', permissionStatus.storage);
+            ['location', 'notification'].forEach(name => {
+                updatePermItem(name, permissionStatus[name]);
+            });
         }
 
         function updatePermItem(name, status) {
             const item = document.getElementById('perm-' + name);
             const statusEl = document.getElementById('status-' + name);
-            
             if (!item || !statusEl) return;
-            
+
             item.classList.remove('granted', 'denied');
             statusEl.classList.remove('granted', 'denied', 'pending');
-            
+
             if (status === 'granted') {
                 item.classList.add('granted');
                 statusEl.classList.add('granted');
@@ -1072,27 +2577,31 @@
             }
         }
 
-        // Request all permissions
         async function requestAllPermissions() {
             const btn = document.getElementById('btnRequestPermissions');
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Meminta Izin...';
 
             try {
-                // 1. Request Location
-                await requestLocationPermission();
-                
-                // 2. Request Notification
-                await requestNotificationPermission();
-                
-                // 3. Request Camera
-                await requestCameraPermission();
-                
-                // 4. Check Storage (usually auto-granted in browser)
-                permissionStatus.storage = 'granted';
-                
-                // 5. Background location instruction
-                showBackgroundLocationInstruction();
+                // Location
+                await new Promise((resolve) => {
+                    if (!navigator.geolocation) {
+                        permissionStatus.location = 'denied';
+                        resolve();
+                        return;
+                    }
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => { permissionStatus.location = 'granted'; resolve(); },
+                        () => { permissionStatus.location = 'denied'; resolve(); },
+                        { timeout: 10000 }
+                    );
+                });
+
+                // Notification
+                if ('Notification' in window) {
+                    const result = await Notification.requestPermission();
+                    permissionStatus.notification = result === 'granted' ? 'granted' : 'denied';
+                }
 
             } catch (error) {
                 console.error('Permission error:', error);
@@ -1101,437 +2610,274 @@
             updatePermissionUI();
             safeSetItem('permissionStatus', JSON.stringify(permissionStatus));
 
-            // Check if all granted
-            const allGranted = Object.values(permissionStatus).filter(s => s === 'granted').length >= 3;
-            
-            if (allGranted) {
-                btn.innerHTML = '<i class="fas fa-check"></i> Semua Izin Diberikan!';
-                btn.style.background = 'var(--success-color)';
-                setTimeout(() => {
-                    hidePermissionOverlay();
-                }, 1500);
+            const granted = Object.values(permissionStatus).filter(s => s === 'granted').length;
+            if (granted >= 1) {
+                btn.innerHTML = '<i class="fas fa-check"></i> Berhasil!';
+                btn.style.background = 'var(--success)';
+                showToast('success', 'Izin Diberikan', 'Semua izin berhasil diaktifkan');
+                if (appSettings.notification) {
+                    playNotificationSound();
+                }
+                setTimeout(hidePermissionOverlay, 1500);
             } else {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-check-circle"></i> Coba Lagi';
             }
         }
 
-        // Request Location Permission
-        function requestLocationPermission() {
-            return new Promise((resolve) => {
-                if (!navigator.geolocation) {
-                    permissionStatus.location = 'denied';
-                    resolve();
-                    return;
-                }
-
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        permissionStatus.location = 'granted';
-                        console.log('Location granted:', position.coords);
-                        resolve();
-                    },
-                    (error) => {
-                        permissionStatus.location = 'denied';
-                        console.log('Location denied:', error.message);
-                        resolve();
-                    },
-                    { timeout: 10000 }
-                );
-            });
-        }
-
-        // Request Notification Permission
-        async function requestNotificationPermission() {
-            if (!('Notification' in window)) {
-                permissionStatus.notification = 'denied';
-                return;
-            }
-
-            try {
-                const result = await Notification.requestPermission();
-                permissionStatus.notification = result === 'granted' ? 'granted' : 'denied';
-            } catch (e) {
-                permissionStatus.notification = 'denied';
-            }
-        }
-
-        // Request Camera Permission
-        async function requestCameraPermission() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                // Stop the stream immediately
-                stream.getTracks().forEach(track => track.stop());
-                permissionStatus.camera = 'granted';
-            } catch (e) {
-                permissionStatus.camera = 'denied';
-            }
-        }
-
-        // Show instruction for background location
-        function showBackgroundLocationInstruction() {
-            const warning = document.getElementById('permissionWarning');
-            const warningText = document.getElementById('permissionWarningText');
-            
-            warning.style.display = 'flex';
-            warningText.innerHTML = `
-                <strong>Untuk Background Location:</strong><br>
-                • Android: Settings → Apps → Browser → Permissions → Location → <strong>"Allow all the time"</strong><br>
-                • iOS: Settings → Browser → Location → <strong>"Always"</strong>
-            `;
-            
-            permissionStatus.background = 'pending';
-        }
-
-        // Skip permissions
         function skipPermissions() {
             hidePermissionOverlay();
         }
 
-        // Open app settings (instruction)
-        function openAppSettings() {
-            const warning = document.getElementById('permissionWarning');
-            const warningText = document.getElementById('permissionWarningText');
-            
-            warning.style.display = 'flex';
-            warningText.innerHTML = `
-                <strong>Buka Pengaturan HP:</strong><br>
-                1. Buka Settings di HP Anda<br>
-                2. Cari "Apps" atau "Aplikasi"<br>
-                3. Pilih browser yang digunakan (Chrome/Safari)<br>
-                4. Pilih "Permissions" atau "Izin"<br>
-                5. Izinkan semua permission
-            `;
-            
-            return false;
+        // Load Promo Data
+        function loadPromoData() {
+            // Home slider
+            const sliderHome = document.getElementById('promoSliderHome');
+            sliderHome.innerHTML = promoData.map(promo => `
+                <div class="promo-card ${promo.gradient}" onclick="navigateTo('promo')">
+                    <span class="promo-badge">${promo.badge}</span>
+                    <h4 class="promo-title">${promo.title}</h4>
+                    <p class="promo-desc">${promo.desc}</p>
+                    <img src="${promo.image}" alt="${promo.title}" class="promo-image">
+                </div>
+            `).join('');
+
+            // Full list
+            const listFull = document.getElementById('promoListFull');
+            listFull.innerHTML = promoData.map(promo => `
+                <div class="promo-item">
+                    <img src="${promo.image}" alt="${promo.title}" class="promo-item-image">
+                    <div class="promo-item-content">
+                        <h4 class="promo-item-title">${promo.title}</h4>
+                        <p class="promo-item-desc">${promo.desc}</p>
+                        <div class="promo-item-footer">
+                            <span class="promo-item-date"><i class="fas fa-calendar"></i> ${promo.date}</span>
+                            <button class="promo-item-btn">Lihat Detail</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        // Check Auth State
+        // Load Kopdar Data
+        function loadKopdarData() {
+            const listHome = document.getElementById('kopdarListHome');
+            const listFull = document.getElementById('kopdarListFull');
+
+            const html = kopdarData.map(kopdar => `
+                <div class="kopdar-card">
+                    <img src="${kopdar.image}" alt="${kopdar.title}" class="kopdar-image">
+                    <div class="kopdar-info">
+                        <h4 class="kopdar-title">${kopdar.title}</h4>
+                        <div class="kopdar-meta">
+                            <span><i class="fas fa-calendar"></i> ${kopdar.date}</span>
+                            <span><i class="fas fa-clock"></i> ${kopdar.time}</span>
+                            <span><i class="fas fa-map-marker-alt"></i> ${kopdar.location}</span>
+                        </div>
+                        <span class="kopdar-badge ${kopdar.status}">${kopdar.status === 'soon' ? 'Coming Soon' : 'Open Registration'}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            listHome.innerHTML = html;
+            listFull.innerHTML = html;
+        }
+
+        // Load Notifications
+        function loadNotifications() {
+            const list = document.getElementById('notificationList');
+            
+            // Sample notifications
+            const notifications = [
+                {
+                    title: 'Selamat Datang!',
+                    message: 'Terima kasih telah bergabung di komunitas BGT-PRO',
+                    time: 'Baru saja',
+                    icon: 'fa-hand-wave',
+                    type: 'info'
+                },
+                {
+                    title: 'Kopdar Bulanan',
+                    message: 'Jangan lupa daftar untuk kopdar bulan ini!',
+                    time: '1 jam lalu',
+                    icon: 'fa-calendar',
+                    type: 'success'
+                }
+            ];
+
+            list.innerHTML = notifications.map(notif => `
+                <div class="kopdar-card" style="margin-bottom: 12px;">
+                    <div class="feature-icon" style="width: 50px; height: 50px; border-radius: 12px;">
+                        <i class="fas ${notif.icon}"></i>
+                    </div>
+                    <div class="kopdar-info">
+                        <h4 class="kopdar-title">${notif.title}</h4>
+                        <p style="font-size: 0.8rem; color: var(--gray-light); margin-bottom: 5px;">${notif.message}</p>
+                        <span style="font-size: 0.7rem; color: var(--gray);">${notif.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Listen for new notifications from admin
+        function listenForNotifications() {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            notificationsUnsubscribe = db.collection('notifications')
+                .where('targetUsers', 'array-contains', user.uid)
+                .orderBy('createdAt', 'desc')
+                .limit(10)
+                .onSnapshot((snapshot) => {
+                    let newCount = 0;
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === 'added') {
+                            const data = change.doc.data();
+                            newCount++;
+                            
+                            // Show toast notification
+                            if (appSettings.notification) {
+                                showToast('info', data.title || 'Notifikasi Baru', data.message || '');
+                            }
+                        }
+                    });
+
+                    // Update badge
+                    const badge = document.getElementById('notifBadge');
+                    if (snapshot.size > 0) {
+                        badge.classList.remove('hidden');
+                        badge.textContent = snapshot.size;
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+                }, (error) => {
+                    console.log('Notification listener error:', error);
+                });
+        }
+
+        // Auth State
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
-                // Not logged in, redirect to index
                 window.location.href = 'index.html';
                 return;
             }
 
             const localSessionId = safeGetItem('userSessionId');
-            
+
             try {
                 const doc = await db.collection('users').doc(user.uid).get();
-                
+
                 if (doc.exists) {
                     const data = doc.data();
-                    
-                    // Check if session is valid
+
                     if (!localSessionId || (data.currentSessionId && data.currentSessionId !== localSessionId)) {
-                        // Session invalid, redirect to login
                         safeRemoveItem('userSessionId');
                         auth.signOut();
-                        alert("Sesi Anda telah berakhir. Silakan login kembali.");
+                        showToast('warning', 'Sesi Berakhir', 'Login kembali');
                         window.location.href = 'index.html';
                         return;
                     }
 
-                    // Session valid, show data
                     showUserData(data);
                     startSessionMonitor(user);
+                    listenForNotifications();
                 } else {
-                    // User data not found
-                    alert("Data user tidak ditemukan. Silakan login ulang.");
+                    showToast('warning', 'Error', 'Data user tidak ditemukan');
                     auth.signOut();
                     window.location.href = 'index.html';
                 }
             } catch (error) {
                 console.error("Error:", error);
-                document.getElementById('loading-view').innerHTML = `
-                    <p style="color: #e74a3b;">Terjadi kesalahan: ${error.message}</p>
-                    <a href="index.html" style="color: #4e73df; margin-top: 15px; display: block;">Kembali ke Login</a>
-                `;
             }
         });
 
-        // Show User Data
         function showUserData(data) {
-            document.getElementById('loading-view').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
+            // Hide loading
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('page-home').style.display = 'block';
 
-            document.getElementById('user-avatar').src = data.profilePicUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(data.nama)}&background=random&size=200`;
-            document.getElementById('user-nama').textContent = data.nama || '-';
-            document.getElementById('user-titel').textContent = data.titel || 'ANGGOTA';
-            document.getElementById('user-email').textContent = data.email || '-';
-            document.getElementById('user-telepon').textContent = data.telepon || '-';
-            document.getElementById('user-plat').textContent = data.platMobil || '-';
-            document.getElementById('user-bergabung').textContent = data.bergabung || '-';
-            document.getElementById('user-status').textContent = data.status || 'ONLINE';
+            // Avatar URLs
+            const avatarUrl = data.profilePicUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(data.nama)}&background=6366f1&color=fff&size=200`;
+            
+            // Set all avatars
+            document.getElementById('userAvatar').src = avatarUrl;
+            document.getElementById('menuAvatar').src = avatarUrl;
+            document.getElementById('profileAvatarLarge').src = avatarUrl;
 
-            // Show location if exists
+            // Names
+            document.getElementById('userName').textContent = data.nama || '-';
+            document.getElementById('menuName').textContent = data.nama || '-';
+            document.getElementById('profileName').textContent = data.nama || '-';
+
+            // Titles
+            document.getElementById('userTitle').textContent = data.titel || 'ANGGOTA';
+            document.getElementById('menuTitle').textContent = data.titel || 'ANGGOTA';
+            document.getElementById('profileTitle').textContent = data.titel || 'ANGGOTA';
+
+            // Profile details
+            document.getElementById('profileEmail').textContent = data.email || '-';
+            document.getElementById('profilePhone').textContent = data.telepon || '-';
+            document.getElementById('profilePlat').textContent = data.platMobil || '-';
+            document.getElementById('profileJoined').textContent = data.bergabung || '-';
+
+            // Status
+            document.getElementById('userStatus').textContent = 'ONLINE';
+
+            // Location
             if (data.latitude && data.longitude) {
-                document.getElementById('lat-value').textContent = data.latitude.toFixed(6);
-                document.getElementById('lng-value').textContent = data.longitude.toFixed(6);
-                
-                const statusEl = document.getElementById('location-status');
-                statusEl.classList.remove('inactive');
-                statusEl.classList.add('active');
-                document.getElementById('location-status-text').textContent = 'Aktif';
-
+                updateLocationUI(data.latitude, data.longitude);
                 if (data.locationUpdatedAt) {
                     const date = data.locationUpdatedAt.toDate ? data.locationUpdatedAt.toDate() : new Date(data.locationUpdatedAt);
-                    document.getElementById('location-time').textContent = date.toLocaleString('id-ID');
+                    document.getElementById('locationTime').textContent = date.toLocaleTimeString('id-ID');
                 }
+            } else {
+                document.getElementById('statLocation').textContent = 'Off';
             }
 
-            // Check permissions first
+            // Load counts
+            loadMemberCount();
+
+            // Load promo & kopdar
+            loadPromoData();
+            loadKopdarData();
+            loadNotifications();
+
+            // Check permissions
             checkPermissions();
 
-            // Load saved settings
+            // Load settings
             loadSettings();
 
-            // Start continuous location tracking
+            // Start location tracking
             startLocationTracking();
         }
 
-        // Continuous Location Tracking (Watch Position)
-        function startLocationTracking() {
-            if (!navigator.geolocation) {
-                console.log('Geolocation not supported');
-                return;
+        async function loadMemberCount() {
+            try {
+                const snapshot = await db.collection('users').get();
+                document.getElementById('statMembers').textContent = snapshot.size;
+                document.getElementById('statEvents').textContent = kopdarData.length;
+            } catch (error) {
+                console.error('Error loading member count:', error);
             }
-
-            // Stop previous watch if exists
-            if (watchPositionId) {
-                navigator.geolocation.clearWatch(watchPositionId);
-            }
-
-            let lastLat = 0;
-            let lastLng = 0;
-            const minDistance = 10; // Minimum 10 meters movement to update
-
-            watchPositionId = navigator.geolocation.watchPosition(
-                async (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    const user = auth.currentUser;
-
-                    if (!user) return;
-
-                    // Calculate distance moved (simple calculation)
-                    const distance = Math.sqrt(
-                        Math.pow((lat - lastLat) * 111000, 2) + 
-                        Math.pow((lng - lastLng) * 111000, 2)
-                    );
-
-                    // Only update if moved more than minDistance meters
-                    if (distance >= minDistance || (lastLat === 0 && lastLng === 0)) {
-                        lastLat = lat;
-                        lastLng = lng;
-
-                        try {
-                            await db.collection('users').doc(user.uid).update({
-                                latitude: lat,
-                                longitude: lng,
-                                locationUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                            });
-
-                            // Update UI
-                            document.getElementById('lat-value').textContent = lat.toFixed(6);
-                            document.getElementById('lng-value').textContent = lng.toFixed(6);
-                            document.getElementById('location-time').textContent = new Date().toLocaleString('id-ID');
-                            
-                            const statusEl = document.getElementById('location-status');
-                            statusEl.classList.remove('inactive');
-                            statusEl.classList.add('active');
-                            document.getElementById('location-status-text').textContent = 'Aktif';
-
-                            console.log('Location updated:', lat.toFixed(6), lng.toFixed(6));
-
-                            // Show notification if enabled
-                            showLocationNotification(lat, lng);
-
-                        } catch (error) {
-                            console.error('Error updating location:', error);
-                        }
-                    }
-                },
-                (error) => {
-                    console.log('Watch position error:', error.message);
-                },
-                {
-                    enableHighAccuracy: appSettings.highAccuracy,
-                    timeout: 30000,
-                    maximumAge: 10000
-                }
-            );
-
-            console.log('Location tracking started (High Accuracy:', appSettings.highAccuracy, ')');
-        }
-
-        // Stop Location Tracking
-        function stopLocationTracking() {
-            if (watchPositionId) {
-                navigator.geolocation.clearWatch(watchPositionId);
-                watchPositionId = null;
-                console.log('Location tracking stopped');
-            }
-        }
-
-        // Update Location
-        function updateLocation(silent = false) {
-            const btn = document.getElementById('btn-update-location');
-            const btnText = document.getElementById('btn-location-text');
-            
-            if (!silent) {
-                btn.disabled = true;
-                btnText.textContent = 'Mendapatkan lokasi...';
-            }
-
-            // Check if geolocation is supported
-            if (!navigator.geolocation) {
-                if (!silent) {
-                    alert('Browser Anda tidak mendukung geolokasi');
-                    btn.disabled = false;
-                    btnText.textContent = 'Update Lokasi Sekarang';
-                }
-                return;
-            }
-
-            navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    const user = auth.currentUser;
-
-                    if (!user) {
-                        if (!silent) {
-                            alert('Anda tidak terautentikasi');
-                            btn.disabled = false;
-                            btnText.textContent = 'Update Lokasi Sekarang';
-                        }
-                        return;
-                    }
-
-                    try {
-                        await db.collection('users').doc(user.uid).update({
-                            latitude: lat,
-                            longitude: lng,
-                            locationUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-
-                        // Update UI
-                        document.getElementById('lat-value').textContent = lat.toFixed(6);
-                        document.getElementById('lng-value').textContent = lng.toFixed(6);
-                        document.getElementById('location-time').textContent = new Date().toLocaleString('id-ID');
-                        
-                        const statusEl = document.getElementById('location-status');
-                        statusEl.classList.remove('inactive');
-                        statusEl.classList.add('active');
-                        document.getElementById('location-status-text').textContent = 'Aktif';
-
-                        if (!silent) {
-                            btnText.textContent = 'Lokasi Berhasil Diupdate!';
-                            setTimeout(() => {
-                                btnText.textContent = 'Update Lokasi Sekarang';
-                                btn.disabled = false;
-                            }, 2000);
-                        }
-                    } catch (error) {
-                        console.error('Error updating location:', error);
-                        if (!silent) {
-                            alert('Gagal mengupdate lokasi: ' + error.message);
-                            btn.disabled = false;
-                            btnText.textContent = 'Update Lokasi Sekarang';
-                        }
-                    }
-                },
-                (error) => {
-                    // Only log in silent mode, don't disturb user
-                    if (silent) {
-                        console.log('Auto location update skipped:', error.message);
-                        return;
-                    }
-                    
-                    console.error('Geolocation error:', error);
-                    let msg = 'Gagal mendapatkan lokasi';
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            msg = 'Akses lokasi ditolak. Silakan izinkan akses lokasi di browser.';
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            msg = 'Informasi lokasi tidak tersedia';
-                            break;
-                        case error.TIMEOUT:
-                            msg = 'Permintaan lokasi timeout';
-                            break;
-                    }
-                    alert(msg);
-                    btn.disabled = false;
-                    btnText.textContent = 'Update Lokasi Sekarang';
-                },
-                {
-                    enableHighAccuracy: false, // Faster
-                    timeout: 8000,
-                    maximumAge: 60000 // Allow cached position up to 1 min
-                }
-            );
-        }
-
-        // Session Monitor
-        let lastActiveInterval = null;
-        
-        function startSessionMonitor(user) {
-            if (!user) return;
-
-            const userRef = db.collection('users').doc(user.uid);
-            const localSessionId = safeGetItem('userSessionId');
-
-            userSessionUnsubscribe = userRef.onSnapshot((doc) => {
-                if (doc.exists) {
-                    const data = doc.data();
-                    const serverSessionId = data.currentSessionId;
-
-                    if (serverSessionId && localSessionId && serverSessionId !== localSessionId) {
-                        if (userSessionUnsubscribe) userSessionUnsubscribe();
-                        safeRemoveItem('userSessionId');
-                        alert("Akun ini sedang login di perangkat lain. Anda telah keluar otomatis.");
-                        auth.signOut();
-                        window.location.href = 'index.html';
-                    }
-                }
-            }, (error) => {
-                console.error("Session monitor error:", error);
-            });
-
-            // Update lastActive timestamp every 60 seconds
-            lastActiveInterval = setInterval(async () => {
-                if (auth.currentUser) {
-                    try {
-                        await db.collection('users').doc(auth.currentUser.uid).update({
-                            lastActive: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                        console.log('lastActive updated');
-                    } catch (error) {
-                        console.error('Error updating lastActive:', error);
-                    }
-                }
-            }, 60000); // Every 60 seconds
-
-            // Also update immediately
-            userRef.update({
-                lastActive: firebase.firestore.FieldValue.serverTimestamp()
-            }).catch(err => console.log('Initial lastActive update failed:', err));
         }
 
         // Logout
         async function handleLogout() {
+            if (!confirm('Apakah Anda yakin ingin keluar?')) return;
+
             try {
-                // Stop location tracking
                 stopLocationTracking();
-                
-                // Clear lastActive interval
+
                 if (lastActiveInterval) {
                     clearInterval(lastActiveInterval);
                     lastActiveInterval = null;
                 }
-                
+
+                if (notificationsUnsubscribe) {
+                    notificationsUnsubscribe();
+                }
+
                 const user = auth.currentUser;
                 if (user) {
                     await db.collection('users').doc(user.uid).update({
@@ -1540,11 +2886,11 @@
                         status: 'OFFLINE'
                     });
                 }
-                
+
                 if (userSessionUnsubscribe) userSessionUnsubscribe();
                 safeRemoveItem('userSessionId');
                 await auth.signOut();
-                
+
                 window.location.href = 'index.html';
             } catch (error) {
                 console.error("Logout error:", error);
